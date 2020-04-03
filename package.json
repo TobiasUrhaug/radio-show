@@ -1,0 +1,23 @@
+{
+  "name": "radio-show",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "cypress": "^4.3.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TobiasUrhaug/radio-show.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TobiasUrhaug/radio-show/issues"
+  },
+  "homepage": "https://github.com/TobiasUrhaug/radio-show#readme"
+}
