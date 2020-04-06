@@ -1,7 +1,7 @@
-describe('Radio test', function() {
-  it('Should display welcome message', function() {
+describe('Home page', function() {
+  it('Displays welcome message', function() {
     cy.visit('http://localhost:8080')
-    cy.contains('Hello!')
+    cy.contains('Welcome')
   })
 })
 
