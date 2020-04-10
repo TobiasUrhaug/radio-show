@@ -1,14 +1,14 @@
 describe('Home page', function() {
 
   it('Displays welcome message', function() {
-    cy.visit('http://localhost:8080')
+    cy.visit('/')
     cy.contains('Welcome')
   })
 
   describe('Radio shows', function() {
 
     it('Contains a list of previous shows', function() {
-      cy.visit('http://localhost:8080')
+      cy.visit('/')
 
       var radioShows = cy.get('#radio-shows')
       radioShows.find('h2').first().should('contain', 'Radio shows')
@@ -17,7 +17,7 @@ describe('Home page', function() {
     })
 
     it('Add new show button redirects to add show page', function() {
-        cy.visit('http://localhost:8080')
+        cy.visit('/')
         cy.get('#radio-shows').contains('Create new show').click()
         cy.url().should('contain', '/shows/add')
     })

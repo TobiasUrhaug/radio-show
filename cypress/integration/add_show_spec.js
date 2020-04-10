@@ -1,6 +1,6 @@
 describe('Input form', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:8080/shows/add')
+    cy.visit('/shows/add')
   })
   it('has labeled input field for name', () => {
     cy.get('.new-name-label')
