@@ -16,6 +16,12 @@ describe('Home page', function() {
       radioShows.get('ul>li').eq(1).should('contain', 'Transmission#2')
     })
 
+    it('Add new show button redirects to add show page', function() {
+        cy.visit('http://localhost:8080')
+        cy.get('#radio-shows').contains('Create new show').click()
+        cy.url().should('contain', '/shows/add')
+    })
+
   })
 
 })
