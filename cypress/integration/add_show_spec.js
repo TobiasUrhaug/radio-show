@@ -10,4 +10,15 @@ describe('Input form', () => {
       .type(typedName)
       .should('have.value', typedName)
   })
+  it('has labeled input field for date', () => {
+    cy.visit('http://localhost:8080/shows/add')
+
+    cy.get('.new-date-label')
+      .should('contain', 'Date:')
+
+    const typedDate = '2020-04-10'
+    cy.get('.new-date')
+      .type(typedDate)
+      .should('have.value', typedDate)
+  })
 })
