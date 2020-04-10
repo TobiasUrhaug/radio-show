@@ -1,7 +1,8 @@
 describe('Input form', () => {
-  it('has labeled input field for name', () => {
+  beforeEach(() => {
     cy.visit('http://localhost:8080/shows/add')
-
+  })
+  it('has labeled input field for name', () => {
     cy.get('.new-name-label')
       .should('contain', 'Name:')
 
@@ -11,8 +12,6 @@ describe('Input form', () => {
       .should('have.value', typedName)
   })
   it('has labeled input field for date', () => {
-    cy.visit('http://localhost:8080/shows/add')
-
     cy.get('.new-date-label')
       .should('contain', 'Date:')
 
