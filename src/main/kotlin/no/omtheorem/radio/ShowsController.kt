@@ -8,7 +8,7 @@ class ShowsController {
 
     @GetMapping("/shows/add")
     fun showAddShowForm(show: Show): String {
-        return "add-show"
+        return "shows/add"
     }
 
 }
