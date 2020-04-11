@@ -20,4 +20,7 @@ describe('Input form', () => {
       .type(typedDate)
       .should('have.value', typedDate)
   })
+  it('has a submit button', () => {
+    cy.get('[data-cy=submit]')
+  })
 })
