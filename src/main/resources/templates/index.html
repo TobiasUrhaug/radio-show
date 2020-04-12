@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en", xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>OMT</title>
@@ -10,12 +10,30 @@
 
 <div id="radio-shows">
     <h2>Radio shows</h2>
-    <button type="button"><a href="/shows/add">Create new show</a></button>
+    <button type="button" data-cy="add-show">
+        <a href="/shows/add">Create new show</a>
+    </button>
     <ul>
         <li>Transmission#1</li>
         <li>Transmission#2</li>
     </ul>
-</div>
 
+    <table>
+        <thead>
+        <th>Name</th>
+        <th>Date</th>
+        </thead>
+        <tbody>
+        <tr th:each="show: ${shows}">
+            <td>
+                <span th:text="${show.name}"></span>
+            </td>
+            <td>
+                <span th:text="${show.date}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

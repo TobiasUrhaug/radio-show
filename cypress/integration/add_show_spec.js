@@ -7,7 +7,7 @@ describe('Input form', () => {
       .should('contain', 'Name:')
 
     const typedName = 'The first Show!'
-    cy.get('.new-name')
+    cy.get('[data-cy=name-input]')
       .type(typedName)
       .should('have.value', typedName)
   })
@@ -16,7 +16,7 @@ describe('Input form', () => {
       .should('contain', 'Date:')
 
     const typedDate = '2020-04-10'
-    cy.get('.new-date')
+    cy.get('[data-cy=date-input]')
       .type(typedDate)
       .should('have.value', typedDate)
   })

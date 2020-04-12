@@ -6,12 +6,25 @@
 </head>
 <body>
     <p>Add a new Show</p>
-    <form>
+    <form
+        action="#"
+        th:action="@{/shows}"
+        th:object="${show}"
+        method="post"
+    >
         <label class="new-name-label">Name:</label>
-        <input class="new-name", type="text"/>
+        <input
+            type="text"
+            th:field="*{name}"
+            data-cy="name-input"
+        />
         <br>
         <label class="new-date-label">Date:</label>
-        <input class="new-date", type="text"/>
+        <input
+            type="date"
+            th:field="*{date}"
+            data-cy="date-input"
+        />
         <br>
         <br>
         <input type="submit" data-cy="submit" value="Add Show">
