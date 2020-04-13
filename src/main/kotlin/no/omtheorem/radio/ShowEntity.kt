@@ -10,6 +10,6 @@ data class ShowEntity (
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         val date: LocalDate = LocalDate.of(1970, 1, 1),
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @GeneratedValue
         val id: Long = -1
 )
