@@ -48,10 +48,11 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `listShows renders all shows`() {
+    fun `listShows renders all shows ordered by descending id`() {
         val allShows = listOf(
                 ShowEntity("First", LocalDate.of(2020,3,15), 1),
-                ShowEntity("Second", LocalDate.of(2020,4,12), 2)
+                ShowEntity("Second", LocalDate.of(2020,4,12), 2),
+                ShowEntity("Third", LocalDate.of(2020,5,17), 3)
         )
 
         every { showRepository.findAll() } returns allShows
@@ -59,7 +60,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         this.mvc.perform(get("/"))
                 .andExpect(status().isOk)
                 .andExpect(view().name("index"))
-                .andExpect(model().attribute("shows", allShows))
+                .andExpect(model().attribute("shows", allShows.sortedByDescending { it.id }))
     }
 
 }
