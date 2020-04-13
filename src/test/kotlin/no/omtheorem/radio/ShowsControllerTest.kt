@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.time.LocalDate
-import java.util.*
 
 @WebMvcTest
 internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
@@ -37,13 +36,13 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
     @Test
     fun `addShow saves the show to the repository`() {
-        val show = ShowEntity("Show Name","2020-04-12")
+        val show = ShowEntity("Show Name",LocalDate.of(2020, 4, 12))
 
         every { showRepository.save(show) } returns ShowEntity(show.name, show.date, 1)
 
         this.mvc.perform(post("/shows")
                 .param("name", show.name)
-                .param("date", show.date))
+                .param("date", show.date.toString()))
 
         verify (exactly = 1) { showRepository.save(show) }
     }
@@ -51,8 +50,8 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     @Test
     fun `listShows renders all shows`() {
         val allShows = listOf(
-                ShowEntity("First", "2020-03-15", 1),
-                ShowEntity("Second", "2020-04-12", 2)
+                ShowEntity("First", LocalDate.of(2020,3,15), 1),
+                ShowEntity("Second", LocalDate.of(2020,4,12), 2)
         )
 
         every { showRepository.findAll() } returns allShows
