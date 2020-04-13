@@ -21,10 +21,10 @@ describe('Home page', function() {
     })
 
     function add_show(name, date) {
-      cy.get('[data-cy=add-show]').click()
-      cy.get('[data-cy=name-input').type(name)
-      cy.get('[data-cy=date-input').type(date)
-      cy.get('[data-cy=submit').click()
+      cy.get('[data-test=add-show]').click()
+      cy.get('[data-test=name-input').type(name)
+      cy.get('[data-test=date-input').type(date)
+      cy.get('[data-test=submit').click()
     }
 
   })
