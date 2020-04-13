@@ -10,17 +10,14 @@ describe('Home page', function() {
 
   describe('Radio shows', function() {
 
-    it('Lets users add a new show', () => {
+    it('Lets users add new shows', () => {
       add_show('A new Show!', '2020-04-10')
       cy.url().should('eq', 'http://localhost:8080/')
 
-      cy.get('td>span')
-        .eq(0)
+      cy.get('[data-test=shows]')
+        .first()
         .should('contain', 'A new Show!')
-
-      cy.get('td>span')
-        .eq(1)
-        .should('contain', '2020-04-10')
+        .and('contain', '2020-04-10')
     })
 
     function add_show(name, date) {
