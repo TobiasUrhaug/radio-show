@@ -6,16 +6,16 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.time.LocalDate
 
 @WebMvcTest
 internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
-    @MockkBean
+    @MockkBean(relaxUnitFun = true)
     private lateinit var showRepository: ShowRepository
 
     @Test
@@ -61,6 +61,14 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
                 .andExpect(status().isOk)
                 .andExpect(view().name("index"))
                 .andExpect(model().attribute("shows", allShows.sortedByDescending { it.id }))
+    }
+
+    @Test
+    fun `deleteShow deletes a show by its id`() {
+        this.mvc.perform(get("/shows/delete/2"))
+                .andExpect(status().is3xxRedirection)
+
+        verify { showRepository.deleteById(2) }
     }
 
 }

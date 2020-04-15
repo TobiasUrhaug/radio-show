@@ -31,6 +31,14 @@ describe('Home page', function() {
 
     })
 
+    it('Lets users delete shows', function() {
+      add_show('To be Deleted', '2020-04-17')
+      cy.get('[data-test=delete]').first().click()
+      cy.url().should('eq', 'http://localhost:8080/')
+      cy.get('[data-test=shows')
+        .should('not.contain', 'To be Deleted')
+    })
+
     function add_show(name, date) {
       cy.get('[data-test=add-show]').click()
       cy.get('[data-test=name-input').type(name)

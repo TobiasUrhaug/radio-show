@@ -17,6 +17,7 @@
         <thead>
         <th>Name</th>
         <th>Date</th>
+        <th></th>
         </thead>
         <tbody>
         <tr th:each="show: ${shows}" data-test="show">
@@ -25,6 +26,16 @@
             </td>
             <td data-test="show-date">
                 <span th:text="${show.date}"></span>
+            </td>
+            <td>
+                <form
+                    action="#"
+                    th:action="@{/shows/delete/{id}(id=${show.id})}"
+                    method="get"
+                    data-test="delete"
+                >
+                    <button type="submit">Delete</button>
+                </form>
             </td>
         </tr>
         </tbody>
