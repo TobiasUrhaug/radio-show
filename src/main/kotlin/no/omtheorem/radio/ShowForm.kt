@@ -4,5 +4,6 @@ import java.time.LocalDate
 
 data class ShowForm(
         val name: String = "",
-        val date: String = ""
+        val date: String = "",
+        val id: Long = -1
 )

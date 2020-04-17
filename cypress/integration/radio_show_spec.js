@@ -39,6 +39,16 @@ describe('Home page', function() {
         .should('not.contain', 'To be Deleted')
     })
 
+    it('Lets users edit shows', function() {
+        add_show('To be edited', '2020-04-18')
+        cy.get('[data-test=edit]').first().click()
+        cy.url().should('contain', '/shows/update')
+        cy.get('[data-test=name-input')
+          .should('have.value', 'To be edited')
+        cy.get('[data-test=date-input')
+          .should('have.value', '2020-04-18')
+    })
+
     function add_show(name, date) {
       cy.get('[data-test=add-show]').click()
       cy.get('[data-test=name-input').type(name)

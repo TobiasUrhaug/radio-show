@@ -38,4 +38,11 @@ class ShowsController (){
         return "redirect:/"
     }
 
+    @GetMapping("/shows/update/{id}")
+    fun showUpdateShowForm(@PathVariable id: Long, model: Model): String {
+        val show = showRepository.findById(id).get()
+        model.addAttribute("show", ShowForm(show.name, show.date.toString(), id))
+        return "shows/update"
+    }
+
 }

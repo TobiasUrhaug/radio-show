@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.time.LocalDate
+import java.util.*
 
 @WebMvcTest
 internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
@@ -73,6 +74,18 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
                 .andExpect(status().is3xxRedirection)
 
         verify { showRepository.deleteById(2) }
+    }
+
+    @Test
+    fun `showUpdateShowForm renders form with correct values`() {
+        val show = ShowEntity("Edit me!", LocalDate.of(2020,4,19), 1)
+
+        every { showRepository.findById(1) } returns Optional.of(show)
+
+        this.mvc.perform(get("/shows/update/1"))
+                .andExpect(status().isOk)
+                .andExpect(view().name("shows/update"))
+                .andExpect(model().attribute("show", ShowForm(show.name, show.date.toString(), 1)))
     }
 
 }
