@@ -45,4 +45,11 @@ class ShowsController (){
         return "shows/update"
     }
 
+    @PostMapping("/shows/update/{id}")
+    fun updateShow(@PathVariable id: Long, @ModelAttribute show: ShowForm): String {
+        val date = LocalDate.parse(show.date, DateTimeFormatter.ISO_LOCAL_DATE)
+        showRepository.save(ShowEntity(show.name, date, id))
+        return "redirect:/"
+    }
+
 }

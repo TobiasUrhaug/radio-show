@@ -88,4 +88,21 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
                 .andExpect(model().attribute("show", ShowForm(show.name, show.date.toString(), 1)))
     }
 
+    @Test
+    fun `updateShow updates the show and redirects to root`() {
+        val showEntity = ShowEntity("New name", LocalDate.of(2020, 4, 22), 1)
+
+        every { showRepository.save(showEntity) } returns showEntity
+
+        this.mvc.perform(post("/shows/update/1")
+                .param("name", showEntity.name)
+                .param("date", showEntity.date.toString())
+                .param("id", showEntity.id.toString())
+        )
+                .andExpect(status().is3xxRedirection)
+                .andExpect(redirectedUrl("/"))
+
+        verify { showRepository.save(showEntity) }
+    }
+
 }
