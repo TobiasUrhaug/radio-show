@@ -6,7 +6,6 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
@@ -27,18 +26,23 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
     @Test
     fun `addShow redirects to root`() {
-        every { showRepository.save(ShowEntity()) } returns ShowEntity()
+        val show = ShowEntity("Show Name", LocalDate.of(2020, 4, 12))
 
-        this.mvc.perform(post("/shows"))
+        every { showRepository.save(show) } returns show
+
+        this.mvc.perform(post("/shows")
+                .param("name", show.name)
+                .param("date", show.date.toString())
+        )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(redirectedUrl("/"))
     }
 
     @Test
     fun `addShow saves the show to the repository`() {
-        val show = ShowEntity("Show Name",LocalDate.of(2020, 4, 12))
+        val show = ShowEntity("Show Name", LocalDate.of(2020, 4, 12))
 
-        every { showRepository.save(show) } returns ShowEntity(show.name, show.date, 1)
+        every { showRepository.save(show) } returns show
 
         this.mvc.perform(post("/shows")
                 .param("name", show.name)
