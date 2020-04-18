@@ -15,18 +15,18 @@
     </button>
     <table data-test="shows">
         <thead>
-        <th>Name</th>
         <th>Date</th>
+        <th>Name</th>
         <th></th>
         <th></th>
         </thead>
         <tbody>
         <tr th:each="show: ${shows}" data-test="show">
-            <td data-test="show-name">
-                <span th:text="${show.name}"></span>
-            </td>
             <td data-test="show-date">
                 <span th:text="${show.date}"></span>
+            </td>
+            <td data-test="show-name">
+                <span th:text="${show.name}"></span>
             </td>
             <td>
                 <form
