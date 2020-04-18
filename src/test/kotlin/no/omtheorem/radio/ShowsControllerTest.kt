@@ -19,19 +19,19 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     private lateinit var showRepository: ShowRepository
 
     @Test
-    fun `showAddShowForm renders form`() {
-        this.mvc.perform(get("/shows/add"))
+    fun `showCreateShowForm renders form`() {
+        this.mvc.perform(get("/shows/create"))
                 .andExpect(status().isOk)
-                .andExpect(view().name("shows/add"))
+                .andExpect(view().name("shows/create"))
     }
 
     @Test
-    fun `addShow redirects to root`() {
+    fun `createShow redirects to root`() {
         val show = ShowEntity("Show Name", LocalDate.of(2020, 4, 12))
 
         every { showRepository.save(show) } returns show
 
-        this.mvc.perform(post("/shows")
+        this.mvc.perform(post("/shows/create")
                 .param("name", show.name)
                 .param("date", show.date.toString())
         )
@@ -40,12 +40,12 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `addShow saves the show to the repository`() {
+    fun `createShow saves the show to the repository`() {
         val show = ShowEntity("Show Name", LocalDate.of(2020, 4, 12))
 
         every { showRepository.save(show) } returns show
 
-        this.mvc.perform(post("/shows")
+        this.mvc.perform(post("/shows/create")
                 .param("name", show.name)
                 .param("date", show.date.toString()))
 

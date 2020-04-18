@@ -11,14 +11,14 @@ class ShowsController (){
     @Autowired
     private lateinit var showRepository: ShowRepository
 
-    @GetMapping("/shows/add")
-    fun showAddShowForm(model: Model): String {
+    @GetMapping("/shows/create")
+    fun showCreateShowForm(model: Model): String {
         model.addAttribute("show", ShowForm())
-        return "shows/add"
+        return "shows/create"
     }
 
-    @PostMapping("/shows")
-    fun addShow(@ModelAttribute showForm: ShowForm, model: Model): String {
+    @PostMapping("/shows/create")
+    fun createShow(@ModelAttribute showForm: ShowForm, model: Model): String {
         showRepository.save(ShowEntity(showForm.name, showForm.localDate()))
         return "redirect:/"
     }

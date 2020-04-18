@@ -70,7 +70,7 @@ describe('Home page', function() {
     })
 
     function add_show(name, date) {
-      cy.get('[data-test=add-show]').click()
+      cy.get('[data-test=create-show]').click()
       cy.get('[data-test=name-input').type(name)
       cy.get('[data-test=date-input').type(date)
       cy.get('[data-test=submit').click()
