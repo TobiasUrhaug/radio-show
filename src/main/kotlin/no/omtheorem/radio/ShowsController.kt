@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.*
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @Controller
 class ShowsController (){
@@ -20,9 +18,8 @@ class ShowsController (){
     }
 
     @PostMapping("/shows")
-    fun addShow(@ModelAttribute show: ShowForm, model: Model): String {
-        val date = LocalDate.parse(show.date, DateTimeFormatter.ISO_LOCAL_DATE)
-        showRepository.save(ShowEntity(show.name, date))
+    fun addShow(@ModelAttribute showForm: ShowForm, model: Model): String {
+        showRepository.save(ShowEntity(showForm.name, showForm.localDate()))
         return "redirect:/"
     }
 
@@ -46,9 +43,8 @@ class ShowsController (){
     }
 
     @PostMapping("/shows/update/{id}")
-    fun updateShow(@PathVariable id: Long, @ModelAttribute show: ShowForm): String {
-        val date = LocalDate.parse(show.date, DateTimeFormatter.ISO_LOCAL_DATE)
-        showRepository.save(ShowEntity(show.name, date, id))
+    fun updateShow(@PathVariable id: Long, @ModelAttribute showForm: ShowForm): String {
+        showRepository.save(ShowEntity(showForm.name, showForm.localDate(), id))
         return "redirect:/"
     }
 
