@@ -29,6 +29,12 @@ describe('Home page', function() {
         .should('contain', 'A new Show!')
         .and('contain', '2020-04-10')
 
+      add_show('', '2020-04-19')
+      cy.url().should('eq', 'http://localhost:8080/shows/create')
+      cy.get('[data-test=name-error]')
+        .first()
+        .should('not.be.empty')
+
     })
 
     it('Lets users delete shows', function() {
@@ -71,7 +77,9 @@ describe('Home page', function() {
 
     function add_show(name, date) {
       cy.get('[data-test=create-show]').click()
-      cy.get('[data-test=name-input').type(name)
+      if (name !== "") {
+        cy.get('[data-test=name-input').type(name)
+      }
       cy.get('[data-test=date-input').type(date)
       cy.get('[data-test=submit').click()
     }

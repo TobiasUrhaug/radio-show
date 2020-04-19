@@ -3,7 +3,9 @@ package no.omtheorem.radio
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @Controller
 class ShowsController (){
@@ -18,7 +20,10 @@ class ShowsController (){
     }
 
     @PostMapping("/shows/create")
-    fun createShow(@ModelAttribute showForm: ShowForm, model: Model): String {
+    fun createShow(@Valid @ModelAttribute("show") showForm: ShowForm, bindingResult: BindingResult, model: Model): String {
+        if (bindingResult.hasErrors()) {
+            return "shows/create"
+        }
         showRepository.save(ShowEntity(showForm.name, showForm.localDate()))
         return "redirect:/"
     }

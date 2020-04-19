@@ -2,8 +2,10 @@ package no.omtheorem.radio
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import javax.validation.constraints.NotEmpty
 
 class ShowForm(
+        @get:NotEmpty(message = "Name cannot be empty")
         val name: String = "",
         val date: String = "",
         val id: Long = -1

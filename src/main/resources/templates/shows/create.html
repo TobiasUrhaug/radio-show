@@ -17,6 +17,11 @@
                 th:field="*{name}"
                 data-test="name-input"
         />
+        <label
+                th:if="${#fields.hasErrors('name')}"
+                th:errors="*{name}"
+                data-test="name-error">
+        </label>
         <br>
         <label>Date:</label>
         <input
