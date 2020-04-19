@@ -55,6 +55,19 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
+    fun `createShow empty date is not valid and returns the same view`() {
+        val showForm = ShowForm("A name", "")
+
+        this.mvc.perform(post("/shows/create")
+                .param("name", showForm.name)
+                .param("date", showForm.date)
+        )
+                .andExpect(status().isOk)
+                .andExpect(view().name("shows/create"))
+                .andExpect(model().attribute("show", showForm))
+    }
+
+    @Test
     fun `listShows renders all shows ordered by descending id`() {
         val allShows = listOf(
                 ShowEntity("First", LocalDate.of(2020,3,15), 1),

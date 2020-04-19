@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty
 class ShowForm(
         @get:NotEmpty(message = "Name cannot be empty")
         val name: String = "",
+        @get:NotEmpty(message = "Please select a date")
         val date: String = "",
         val id: Long = -1
 ) {

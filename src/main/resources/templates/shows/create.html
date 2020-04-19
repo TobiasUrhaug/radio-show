@@ -29,6 +29,12 @@
                 th:field="*{date}"
                 data-test="date-input"
         />
+        <label
+                th:if="${#fields.hasErrors('date')}"
+                th:errors="*{date}"
+                data-test="date-error"
+        >
+        </label>
     </div>
     <br>
     <br>
