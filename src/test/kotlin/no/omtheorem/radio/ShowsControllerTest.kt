@@ -43,15 +43,15 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
     @Test
     fun `createShow empty name is not valid and returns the same view`() {
-        val show = ShowEntity("", LocalDate.of(2020,4,19))
+        val showForm = ShowForm("", "2020-04-28")
 
         this.mvc.perform(post("/shows/create")
-                .param("name", show.name)
-                .param("date", show.date.toString())
+                .param("name", showForm.name)
+                .param("date", showForm.date)
         )
                 .andExpect(status().isOk)
                 .andExpect(view().name("shows/create"))
-                .andExpect(model().attribute("show", ShowForm(show.name, show.date.toString())))
+                .andExpect(model().attribute("show", showForm))
     }
 
     @Test
