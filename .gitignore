@@ -1,2 +1,4 @@
 build/*
 .gradle/*
+cypress/screenshots/*
+cypress/videos/*
