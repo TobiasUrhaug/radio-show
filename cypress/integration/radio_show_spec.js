@@ -8,6 +8,17 @@ describe('Home page', function() {
     cy.contains('Welcome')
   })
 
+  describe('Navbar', function() {
+
+    it('Is visible with a brand', function() {
+      cy.get('[data-test=navbar]')
+        .should('be.visible')
+        .get('.navbar-brand')
+        .should('not.be.empty')
+    })
+
+  })
+
   describe('Radio shows', function() {
 
     it('Lets users add new shows to the top of the list', () => {
