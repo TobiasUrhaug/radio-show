@@ -17,6 +17,13 @@ describe('Home page', function() {
         .should('not.be.empty')
     })
 
+    it('Has home element navigating to root', function() {
+      cy.get('[data-test=create-show').click()
+      cy.get('[data-test=navbar-home').click()
+      cy.url()
+        .should('eq', 'http://localhost:8080/')
+    })
+
   })
 
   describe('Radio shows', function() {

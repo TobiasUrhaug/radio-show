@@ -14,11 +14,16 @@
 <body>
 <nav
         th:fragment="navbar"
-        class="navbar navbar-dark bg-dark"
+        class="navbar navbar-expand-sm navbar-dark bg-dark"
         data-test="navbar"
         style="margin-bottom:20px"
 >
     <a class="navbar-brand" href="#">OMT Radio</a>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="/" data-test="navbar-home">Home</a>
+        </li>
+    </ul>
 </nav>
 
 </body>
