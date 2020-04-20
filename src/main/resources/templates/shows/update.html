@@ -3,17 +3,19 @@
 <head th:insert="fragments/layout :: head">
 </head>
 <body>
-<p>Edit Show</p>
-<form
-        action="#"
-        th:action="@{/shows/update/{id}(id=${show.id})}"
-        th:object="${show}"
-        method="post"
->
-    <div th:insert="shows/create :: show-fields"></div>
-    <br/>
-    <br/>
-    <input type="submit" data-test="submit" value="Submit changes">
-</form>
+<div class="container">
+    <p>Edit Show</p>
+    <form
+            action="#"
+            th:action="@{/shows/update/{id}(id=${show.id})}"
+            th:object="${show}"
+            method="post"
+    >
+        <div th:insert="shows/create :: show-fields"></div>
+        <br/>
+        <br/>
+        <input type="submit" data-test="submit" value="Submit changes">
+    </form>
+</div>
 </body>
 </html>

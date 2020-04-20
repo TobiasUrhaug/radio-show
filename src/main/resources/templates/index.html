@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en", xmlns:th="https://www.thymeleaf.org">
+<html lang="en" , xmlns:th="https://www.thymeleaf.org">
 <head th:insert="fragments/layout :: head">
 </head>
 <body>
 
-<h1>Welcome to this radio content manager!</h1>
-
-<div id="radio-shows">
+<div class="container">
+    <h1>Welcome to this radio content manager!</h1>
     <h2>Radio shows</h2>
     <button type="button" data-test="create-show">
         <a href="/shows/create">Create new show</a>
     </button>
-    <table data-test="shows">
+    <table data-test="shows" class="table">
         <thead>
         <th>Date</th>
         <th>Name</th>
@@ -28,22 +27,20 @@
             </td>
             <td>
                 <form
-                    action="#"
-                    th:action="@{/shows/delete/{id}(id=${show.id})}"
-                    method="get"
-                    data-test="delete"
+                        action="#"
+                        th:action="@{/shows/delete/{id}(id=${show.id})}"
+                        method="get"
                 >
-                    <button type="submit">Delete</button>
+                    <button type="submit" data-test="delete">Delete</button>
                 </form>
             <td/>
             <td>
                 <form
-                    action="#"
-                    th:action="@{/shows/update/{id}(id=${show.id})}"
-                    method="get"
-                    data-test="edit"
+                        action="#"
+                        th:action="@{/shows/update/{id}(id=${show.id})}"
+                        method="get"
                 >
-                    <button type="submit">Edit</button>
+                    <button type="submit" data-test="edit">Edit</button>
                 </form>
             </td>
         </tr>
