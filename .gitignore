@@ -3,3 +3,4 @@ build/*
 cypress/screenshots/*
 cypress/videos/*
 *.DS_Store
+node_modules/bootstrap/*
