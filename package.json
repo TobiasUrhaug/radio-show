@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {
-    "bootstrap": "^4.4.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "cypress": "^4.3.0"
   },
