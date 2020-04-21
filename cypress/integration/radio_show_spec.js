@@ -78,38 +78,38 @@ describe('Home page', function() {
           .should('not.contain', 'To be Deleted')
       })
 
+      it('Lets users edit shows', function() {
+            const originalName = 'To be edited'
+            const originalDate = '2020-04-18'
+            const editedName = 'Edited name'
+            const editedDate = '2020-04-19'
+
+            add_show(originalName, originalDate)
+
+            cy.get('[data-test=show-details]').first().click()
+            cy.get('[data-test=edit]').first().click()
+            cy.url().should('contain', '/shows/update')
+            cy.get('[data-test=name-input')
+              .should('have.value', originalName)
+              .clear()
+              .type(editedName)
+            cy.get('[data-test=date-input')
+              .should('have.value', originalDate)
+              .clear()
+              .type(editedDate)
+            cy.get('[data-test=submit').click()
+
+            cy.url().should('eq', 'http://localhost:8080/')
+            cy.get('[data-test=shows')
+              .should('not.contain', originalName)
+              .and('not.contain', originalDate)
+            cy.get('[data-test=show]')
+              .first()
+              .should('contain', editedName)
+              .and('contain', editedDate)
+          })
+
     })
-
-    it('Lets users edit shows', function() {
-      const originalName = 'To be edited'
-      const originalDate = '2020-04-18'
-      const editedName = 'Edited name'
-      const editedDate = '2020-04-19'
-
-      add_show(originalName, originalDate)
-
-      cy.get('[data-test=edit]').first().click()
-      cy.url().should('contain', '/shows/update')
-      cy.get('[data-test=name-input')
-        .should('have.value', originalName)
-        .clear()
-        .type(editedName)
-      cy.get('[data-test=date-input')
-        .should('have.value', originalDate)
-        .clear()
-        .type(editedDate)
-      cy.get('[data-test=submit').click()
-
-      cy.url().should('eq', 'http://localhost:8080/')
-      cy.get('[data-test=shows')
-        .should('not.contain', originalName)
-        .and('not.contain', originalDate)
-      cy.get('[data-test=show]')
-        .first()
-        .should('contain', editedName)
-        .and('contain', editedDate)
-    })
-
 
     function add_show(name, date) {
       cy.get('[data-test=create-show]').click()

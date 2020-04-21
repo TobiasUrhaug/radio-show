@@ -24,6 +24,13 @@
     <br>
     <form
             action="#"
+            th:action="@{/shows/update/{id}(id=${show.id})}"
+            method="get"
+    >
+        <button type="submit" data-test="edit">Edit</button>
+    </form>
+    <form
+            action="#"
             th:action="@{/shows/delete/{id}(id=${show.id})}"
             method="get"
     >
