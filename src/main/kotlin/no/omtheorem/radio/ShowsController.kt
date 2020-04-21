@@ -53,4 +53,11 @@ class ShowsController (){
         return "redirect:/"
     }
 
+    @GetMapping("/shows/details/{id}")
+    fun getDetails(@PathVariable id: Long, model: Model): String {
+        val showEntity = showRepository.findById(id).get()
+        model.addAttribute("show", ShowForm(showEntity.name, showEntity.date.toString(), showEntity.id))
+        return "shows/details"
+    }
+
 }

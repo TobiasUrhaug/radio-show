@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en", xmlns:th="https://www.thymeleaf.org">
+<head th:insert="fragments/layout :: head">
+</head>
+<body>
+<div th:insert="fragments/layout :: navbar"/>
+<div class="container" th:object="${show}">
+    <h1>Radio show</h1>
+    <label>Name:</label>
+    <input
+            type="text"
+            th:value="${show.name}"
+            data-test="name"
+            readonly
+    />
+    <br>
+    <label>Date:</label>
+    <input
+            type="date"
+            th:value="${show.date}"
+            data-test="date"
+            readonly
+    />
+</div>
+</body>
+</html>

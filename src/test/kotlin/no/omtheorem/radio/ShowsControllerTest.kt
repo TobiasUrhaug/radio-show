@@ -120,4 +120,16 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         verify { showRepository.save(showEntity) }
     }
 
+    @Test
+    fun `getDetails displays show details on the details page`() {
+        val show = ShowEntity("Show me!", LocalDate.of(2020, 5,14), 1)
+
+        every { showRepository.findById(1) } returns Optional.of(show)
+
+        this.mvc.perform(get("/shows/details/1"))
+                .andExpect(status().isOk)
+                .andExpect(view().name("shows/details"))
+                .andExpect(model().attribute("show", ShowForm(show.name, show.date.toString(), show.id)))
+    }
+
 }

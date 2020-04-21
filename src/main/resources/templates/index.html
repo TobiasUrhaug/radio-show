@@ -16,6 +16,7 @@
         <th>Name</th>
         <th></th>
         <th></th>
+        <th></th>
         </thead>
         <tbody>
         <tr th:each="show: ${shows}" data-test="show">
@@ -24,6 +25,15 @@
             </td>
             <td data-test="show-name">
                 <span th:text="${show.name}"></span>
+            </td>
+            <td>
+                <form
+                        action="#"
+                        th:action="@{/shows/details/{id}(id=${show.id})}"
+                        method="get"
+                >
+                    <button type="submit" data-test="show-details">Details</button>
+                </form>
             </td>
             <td>
                 <form
