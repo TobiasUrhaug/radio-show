@@ -60,7 +60,7 @@ describe('Home page', function() {
 
     describe('Show details', function() {
 
-      it('Lets users visit details page', function() {
+      it('Lets users see the details of a show', function() {
         add_show('Show me your details', '2020-05-17')
         cy.get('[data-test=show-details').first().click()
         cy.get('[data-test=name]')
