@@ -68,15 +68,16 @@ describe('Home page', function() {
         cy.get('[data-test=date]')
           .should('have.value', '2020-05-17')
       })
-      
-    })
 
-    it('Lets users delete shows', function() {
-      add_show('To be Deleted', '2020-04-17')
-      cy.get('[data-test=delete]').first().click()
-      cy.url().should('eq', 'http://localhost:8080/')
-      cy.get('[data-test=shows')
-        .should('not.contain', 'To be Deleted')
+      it('Lets users delete shows', function() {
+        add_show('To be Deleted', '2020-04-17')
+        cy.get('[data-test=show-details]').first().click()
+        cy.get('[data-test=delete]').first().click()
+        cy.url().should('eq', 'http://localhost:8080/')
+        cy.get('[data-test=shows')
+          .should('not.contain', 'To be Deleted')
+      })
+
     })
 
     it('Lets users edit shows', function() {
