@@ -114,6 +114,12 @@ describe('Home page', function() {
             cy.get('[data-test=show-details]').first().click()
             cy.get('[data-test=tracklist]')
               .should('not.be.empty')
+            cy.get('[data-test=add-track]').click()
+            cy.url().should('contain', '/tracks/create')
+            cy.get('[data-test=artist]')
+              .type('DJ Great Software!')
+            cy.get('[data-test=track')
+              .type('BDD or go home!')
           })
 
     })

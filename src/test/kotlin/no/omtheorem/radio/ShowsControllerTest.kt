@@ -132,4 +132,12 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
                 .andExpect(model().attribute("show", ShowForm(show.name, show.date.toString(), show.id)))
     }
 
+    @Test
+    fun `showCreateTrackForm renders form`() {
+        this.mvc.perform(get("/shows/details/1/tracks/create"))
+                .andExpect(status().isOk)
+                .andExpect(view().name("/shows/tracks/create"))
+                .andExpect(model().attribute("track", TrackForm("","")))
+    }
+
 }

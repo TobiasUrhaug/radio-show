@@ -60,4 +60,10 @@ class ShowsController (){
         return "shows/details"
     }
 
+    @GetMapping("/shows/details/{id}/tracks/create")
+    fun showCreateTrackForm(model: Model): String {
+        model.addAttribute("track", TrackForm("",""))
+        return "/shows/tracks/create"
+    }
+
 }

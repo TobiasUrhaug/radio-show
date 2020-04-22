@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" , xmlns:th="https://www.thymeleaf.org">
+<head th:insert="fragments/layout :: head">
+</head>
+<body>
+<div th:insert="fragments/layout :: navbar"></div>
+<div class="container">
+    <h1>Create a track</h1>
+    <label>Artist name:</label>
+    <input type="text" data-test="artist"/>
+    <br>
+    <label>Track name:</label>
+    <input type="text" data-test="track"/>
+</div>
+</body>
+</html>
