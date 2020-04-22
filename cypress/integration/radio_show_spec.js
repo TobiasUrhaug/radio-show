@@ -109,6 +109,13 @@ describe('Home page', function() {
               .and('contain', editedDate)
           })
 
+          it('Lets users add tracks to a track list', function() {
+            add_show('Show with a track list', '2020-05-18')
+            cy.get('[data-test=show-details]').first().click()
+            cy.get('[data-test=tracklist]')
+              .should('not.be.empty')
+          })
+
     })
 
     function add_show(name, date) {
