@@ -138,6 +138,30 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
                 .andExpect(status().isOk)
                 .andExpect(view().name("/shows/tracks/create"))
                 .andExpect(model().attribute("track", TrackForm("","")))
+                .andExpect(model().attribute("showId", 1L))
+    }
+
+    @Test
+    fun `createTrack adds a track to a show`() {
+        val alreadyExistingTrack = TrackEntity("Existing Artist", "Track!!")
+        val addedTrack = TrackEntity("Added Artist", "Track number two")
+        val show = ShowEntity(id =1, tracks = listOf(alreadyExistingTrack))
+
+        every { showRepository.findById(1) } returns Optional.of(show)
+
+        val updatedShow = show.copy()
+        updatedShow.tracks = listOf(alreadyExistingTrack, addedTrack)
+
+        every { showRepository.save(updatedShow) } returns updatedShow
+
+        this.mvc.perform(post("/shows/details/1/tracks")
+                .param("artist", addedTrack.artist)
+                .param("name", addedTrack.name)
+        )
+                .andExpect(status().is3xxRedirection)
+                .andExpect(redirectedUrl("/shows/details/1"))
+
+        verify { showRepository.save(updatedShow) }
     }
 
 }

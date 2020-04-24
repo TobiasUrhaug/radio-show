@@ -42,8 +42,8 @@ class ShowsController (){
 
     @GetMapping("/shows/update/{id}")
     fun showUpdateShowForm(@PathVariable id: Long, model: Model): String {
-        val show = showRepository.findById(id).get()
-        model.addAttribute("show", ShowForm(show.name, show.date.toString(), id))
+        val showEntity = showRepository.findById(id).get()
+        model.addAttribute("show", ShowForm(showEntity))
         return "shows/update"
     }
 
@@ -56,14 +56,26 @@ class ShowsController (){
     @GetMapping("/shows/details/{id}")
     fun getDetails(@PathVariable id: Long, model: Model): String {
         val showEntity = showRepository.findById(id).get()
-        model.addAttribute("show", ShowForm(showEntity.name, showEntity.date.toString(), showEntity.id))
+        model.addAttribute("show", ShowForm(showEntity))
         return "shows/details"
     }
 
-    @GetMapping("/shows/details/{id}/tracks/create")
-    fun showCreateTrackForm(model: Model): String {
+    @GetMapping("/shows/details/{showId}/tracks/create")
+    fun showCreateTrackForm(@PathVariable showId: Long, model: Model): String {
         model.addAttribute("track", TrackForm("",""))
+        model.addAttribute("showId", showId)
         return "/shows/tracks/create"
+    }
+
+    @PostMapping("/shows/details/{showId}/tracks")
+    fun createTrack(@PathVariable showId: Long, @ModelAttribute trackForm: TrackForm): String {
+        val show = showRepository.findById(showId).get()
+        val trackEntity = TrackEntity(trackForm.artist, trackForm.name)
+        val tracks = show.tracks.toMutableList()
+        tracks.add(trackEntity)
+        show.tracks = tracks
+        showRepository.save(show)
+        return "redirect:/shows/details/$showId"
     }
 
 }

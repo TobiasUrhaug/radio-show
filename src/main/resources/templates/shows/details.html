@@ -30,6 +30,10 @@
             <th>Artist</th>
             <th>Name</th>
         </thead>
+        <tbody th:each="track: ${show.tracks}">
+            <td th:text="${track.artist}"></td>
+            <td th:text="${track.name}"></td>
+        </tbody>
     </table>
     <br>
     <button type="submit" data-test="add-track">

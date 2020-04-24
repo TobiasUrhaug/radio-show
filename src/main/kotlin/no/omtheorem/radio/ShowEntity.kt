@@ -12,5 +12,7 @@ data class ShowEntity (
         val date: LocalDate = LocalDate.of(1970, 1, 1),
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long = -1
+        val id: Long = -1,
+        @OneToMany(cascade = [CascadeType.ALL])
+        var tracks: List<TrackEntity> = emptyList()
 )

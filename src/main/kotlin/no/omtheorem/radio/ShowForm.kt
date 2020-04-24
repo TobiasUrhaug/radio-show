@@ -9,8 +9,17 @@ class ShowForm(
         val name: String = "",
         @get:NotEmpty(message = "Please select a date")
         val date: String = "",
-        val id: Long = -1
+        val id: Long = -1,
+        val tracks: List<TrackForm> = emptyList()
 ) {
+
+    constructor(showEntity: ShowEntity) : this(
+            name = showEntity.name,
+            date = showEntity.date.toString(),
+            id = showEntity.id,
+            tracks = showEntity.tracks.map { it -> TrackForm(it.artist, it.name) }
+    ) {
+    }
 
     fun localDate(): LocalDate {
         return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)

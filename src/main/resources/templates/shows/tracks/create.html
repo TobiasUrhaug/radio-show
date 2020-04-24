@@ -6,11 +6,31 @@
 <div th:insert="fragments/layout :: navbar"></div>
 <div class="container">
     <h1>Create a track</h1>
-    <label>Artist name:</label>
-    <input type="text" data-test="artist"/>
-    <br>
-    <label>Track name:</label>
-    <input type="text" data-test="track"/>
+    <form
+            action="#"
+            th:action="@{/shows/details/{id}/tracks (id=${showId})}"
+            th:object="${track}"
+            method="post"
+    >
+        <label>Artist name:</label>
+        <input
+                type="text"
+                th:field="*{artist}"
+                data-test="artist"
+                autofocus
+        />
+        <br>
+        <label>Track name:</label>
+        <input
+                type="text"
+                th:field="*{name}"
+                data-test="name"
+        />
+        <br>
+        <br>
+        <br>
+        <input type="submit" data-test="submit" value="Add track">
+    </form>
 </div>
 </body>
 </html>
