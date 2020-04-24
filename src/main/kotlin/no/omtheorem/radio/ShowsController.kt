@@ -64,7 +64,7 @@ class ShowsController (){
     fun showCreateTrackForm(@PathVariable showId: Long, model: Model): String {
         model.addAttribute("track", TrackForm("",""))
         model.addAttribute("showId", showId)
-        return "/shows/tracks/create"
+        return "shows/tracks/create"
     }
 
     @PostMapping("/shows/{showId}/tracks")
