@@ -53,21 +53,21 @@ class ShowsController (){
         return "redirect:/"
     }
 
-    @GetMapping("/shows/details/{id}")
-    fun getDetails(@PathVariable id: Long, model: Model): String {
-        val showEntity = showRepository.findById(id).get()
+    @GetMapping("/shows/{showId}")
+    fun getDetails(@PathVariable showId: Long, model: Model): String {
+        val showEntity = showRepository.findById(showId).get()
         model.addAttribute("show", ShowForm(showEntity))
-        return "shows/details"
+        return "shows/show"
     }
 
-    @GetMapping("/shows/details/{showId}/tracks/create")
+    @GetMapping("/shows/{showId}/tracks/create")
     fun showCreateTrackForm(@PathVariable showId: Long, model: Model): String {
         model.addAttribute("track", TrackForm("",""))
         model.addAttribute("showId", showId)
         return "/shows/tracks/create"
     }
 
-    @PostMapping("/shows/details/{showId}/tracks")
+    @PostMapping("/shows/{showId}/tracks")
     fun createTrack(@PathVariable showId: Long, @ModelAttribute trackForm: TrackForm): String {
         val show = showRepository.findById(showId).get()
         val trackEntity = TrackEntity(trackForm.artist, trackForm.name)
@@ -75,7 +75,7 @@ class ShowsController (){
         tracks.add(trackEntity)
         show.tracks = tracks
         showRepository.save(show)
-        return "redirect:/shows/details/$showId"
+        return "redirect:/shows/$showId"
     }
 
 }

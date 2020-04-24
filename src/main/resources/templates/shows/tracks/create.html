@@ -8,7 +8,7 @@
     <h1>Create a track</h1>
     <form
             action="#"
-            th:action="@{/shows/details/{id}/tracks (id=${showId})}"
+            th:action="@{/shows/{id}/tracks (id=${showId})}"
             th:object="${track}"
             method="post"
     >

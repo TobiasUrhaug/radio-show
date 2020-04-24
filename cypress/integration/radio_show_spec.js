@@ -121,7 +121,7 @@ describe('Home page', function() {
             cy.get('[data-test=name')
               .type('BDD or go home!')
             cy.get('[data-test=submit]').click()
-            cy.url().should('match', /shows\/details\/[0-9]+/)
+            cy.url().should('match', /shows\/[0-9]+/)
             cy.get('[data-test=tracklist')
               .should('contain', 'DJ Great Software!')
               .and('contain', 'BDD or go home!')

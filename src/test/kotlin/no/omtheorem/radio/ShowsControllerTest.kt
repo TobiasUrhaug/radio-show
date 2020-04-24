@@ -126,15 +126,15 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
         every { showRepository.findById(1) } returns Optional.of(show)
 
-        this.mvc.perform(get("/shows/details/1"))
+        this.mvc.perform(get("/shows/1"))
                 .andExpect(status().isOk)
-                .andExpect(view().name("shows/details"))
+                .andExpect(view().name("shows/show"))
                 .andExpect(model().attribute("show", ShowForm(show.name, show.date.toString(), show.id)))
     }
 
     @Test
     fun `showCreateTrackForm renders form`() {
-        this.mvc.perform(get("/shows/details/1/tracks/create"))
+        this.mvc.perform(get("/shows/1/tracks/create"))
                 .andExpect(status().isOk)
                 .andExpect(view().name("/shows/tracks/create"))
                 .andExpect(model().attribute("track", TrackForm("","")))
@@ -154,12 +154,12 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
         every { showRepository.save(updatedShow) } returns updatedShow
 
-        this.mvc.perform(post("/shows/details/1/tracks")
+        this.mvc.perform(post("/shows/1/tracks")
                 .param("artist", addedTrack.artist)
                 .param("name", addedTrack.name)
         )
                 .andExpect(status().is3xxRedirection)
-                .andExpect(redirectedUrl("/shows/details/1"))
+                .andExpect(redirectedUrl("/shows/1"))
 
         verify { showRepository.save(updatedShow) }
     }

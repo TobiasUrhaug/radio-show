@@ -27,7 +27,7 @@
             <td>
                 <form
                         action="#"
-                        th:action="@{/shows/details/{id}(id=${show.id})}"
+                        th:action="@{/shows/{id}(id=${show.id})}"
                         method="get"
                 >
                     <button type="submit" data-test="show-details">Details</button>
