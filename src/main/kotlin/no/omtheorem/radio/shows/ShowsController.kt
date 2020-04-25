@@ -42,16 +42,16 @@ class ShowsController (){
         return "redirect:/"
     }
 
-    @GetMapping("/shows/update/{id}")
-    fun showUpdateShowForm(@PathVariable id: Long, model: Model): String {
-        val showEntity = showRepository.findById(id).get()
+    @GetMapping("/shows/{showId}/update")
+    fun showUpdateShowForm(@PathVariable showId: Long, model: Model): String {
+        val showEntity = showRepository.findById(showId).get()
         model.addAttribute("show", ShowForm(showEntity))
         return "shows/update"
     }
 
-    @PostMapping("/shows/update/{id}")
-    fun updateShow(@PathVariable id: Long, @ModelAttribute showForm: ShowForm): String {
-        showRepository.save(ShowEntity(showForm.name, showForm.localDate(), id))
+    @PostMapping("/shows/{showId}/update")
+    fun updateShow(@PathVariable showId: Long, @ModelAttribute showForm: ShowForm): String {
+        showRepository.save(ShowEntity(showForm.name, showForm.localDate(), showId))
         return "redirect:/"
     }
 

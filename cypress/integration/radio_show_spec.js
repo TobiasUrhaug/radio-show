@@ -88,7 +88,7 @@ describe('Home page', function() {
 
             cy.get('[data-test=show-details]').first().click()
             cy.get('[data-test=edit]').first().click()
-            cy.url().should('contain', '/shows/update')
+            cy.url().should('match', /shows\/[0-9]+\/update/)
             cy.get('[data-test=name-input')
               .should('have.value', originalName)
               .clear()

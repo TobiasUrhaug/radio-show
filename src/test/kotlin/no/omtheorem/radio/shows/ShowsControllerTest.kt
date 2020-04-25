@@ -99,7 +99,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
         every { showRepository.findById(1) } returns Optional.of(show)
 
-        this.mvc.perform(get("/shows/update/1"))
+        this.mvc.perform(get("/shows/1/update"))
                 .andExpect(status().isOk)
                 .andExpect(view().name("shows/update"))
                 .andExpect(model().attribute("show", ShowForm(show.name, show.date.toString(), 1)))
@@ -111,7 +111,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
         every { showRepository.save(showEntity) } returns showEntity
 
-        this.mvc.perform(post("/shows/update/1")
+        this.mvc.perform(post("/shows/1/update")
                 .param("name", showEntity.name)
                 .param("date", showEntity.date.toString())
                 .param("id", showEntity.id.toString())
