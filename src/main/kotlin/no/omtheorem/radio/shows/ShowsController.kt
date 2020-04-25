@@ -46,6 +46,7 @@ class ShowsController (){
     fun showUpdateShowForm(@PathVariable showId: Long, model: Model): String {
         val showEntity = showRepository.findById(showId).get()
         model.addAttribute("show", ShowForm(showEntity))
+        model.addAttribute("showId", showId)
         return "shows/update"
     }
 
@@ -59,6 +60,7 @@ class ShowsController (){
     fun getDetails(@PathVariable showId: Long, model: Model): String {
         val showEntity = showRepository.findById(showId).get()
         model.addAttribute("show", ShowForm(showEntity))
+        model.addAttribute("showId", showId)
         return "shows/show"
     }
 

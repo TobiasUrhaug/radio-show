@@ -102,7 +102,8 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         this.mvc.perform(get("/shows/1/update"))
                 .andExpect(status().isOk)
                 .andExpect(view().name("shows/update"))
-                .andExpect(model().attribute("show", ShowForm(show.name, show.date.toString(), 1)))
+                .andExpect(model().attribute("show", ShowForm(show.name, show.date.toString())))
+                .andExpect(model().attribute("showId", 1L))
     }
 
     @Test
@@ -114,7 +115,6 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         this.mvc.perform(post("/shows/1/update")
                 .param("name", showEntity.name)
                 .param("date", showEntity.date.toString())
-                .param("id", showEntity.id.toString())
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(redirectedUrl("/"))
@@ -131,7 +131,8 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         this.mvc.perform(get("/shows/1"))
                 .andExpect(status().isOk)
                 .andExpect(view().name("shows/show"))
-                .andExpect(model().attribute("show", ShowForm(show.name, show.date.toString(), show.id)))
+                .andExpect(model().attribute("show", ShowForm(show.name, show.date.toString())))
+                .andExpect(model().attribute("showId", show.id))
     }
 
     @Test

@@ -10,14 +10,12 @@ class ShowForm(
         val name: String = "",
         @get:NotEmpty(message = "Please select a date")
         val date: String = "",
-        val id: Long = -1,
         val tracks: List<TrackForm> = emptyList()
 ) {
 
     constructor(showEntity: ShowEntity) : this(
             name = showEntity.name,
             date = showEntity.date.toString(),
-            id = showEntity.id,
             tracks = showEntity.tracks.map { it -> TrackForm(it.artist, it.name) }
     ) {
     }
@@ -34,7 +32,7 @@ class ShowForm(
 
         if (name != other.name) return false
         if (date != other.date) return false
-        if (id != other.id) return false
+        if (tracks != other.tracks) return false
 
         return true
     }
@@ -42,7 +40,9 @@ class ShowForm(
     override fun hashCode(): Int {
         var result = name.hashCode()
         result = 31 * result + date.hashCode()
-        result = 31 * result + id.hashCode()
+        result = 31 * result + tracks.hashCode()
         return result
     }
+
+
 }

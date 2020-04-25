@@ -37,7 +37,7 @@
     </table>
     <br>
     <button type="submit" data-test="add-track">
-        <a th:href="@{/shows/{id}/tracks/create(id=${show.id})}">Add track</a>
+        <a th:href="@{/shows/{id}/tracks/create(id=${showId})}">Add track</a>
     </button>
     <br>
     <br>
@@ -45,14 +45,14 @@
     <div class="btn-group">
         <form
                 action="#"
-                th:action="@{/shows/{id}/update(id=${show.id})}"
+                th:action="@{/shows/{id}/update(id=${showId})}"
                 method="get"
         >
             <button type="submit" data-test="edit">Edit</button>
         </form>
         <form
                 action="#"
-                th:action="@{/shows/delete/{id}(id=${show.id})}"
+                th:action="@{/shows/delete/{id}(id=${showId})}"
                 method="get"
         >
             <button type="submit" data-test="delete">Delete</button>

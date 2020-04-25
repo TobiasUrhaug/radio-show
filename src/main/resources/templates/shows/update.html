@@ -8,7 +8,7 @@
     <h1>Edit Radio Show</h1>
     <form
             action="#"
-            th:action="@{/shows/{id}/update(id=${show.id})}"
+            th:action="@{/shows/{id}/update(id=${showId})}"
             th:object="${show}"
             method="post"
     >
