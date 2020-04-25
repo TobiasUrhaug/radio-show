@@ -1,10 +1,11 @@
-package no.omtheorem.radio
+package no.omtheorem.radio.shows
 
+import no.omtheorem.radio.tracks.TrackEntity
+import no.omtheorem.radio.tracks.TrackRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import java.time.LocalDate
 
 @DataJpaTest
 internal class ShowsRepositoryTest {

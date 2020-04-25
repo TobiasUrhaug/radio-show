@@ -1,5 +1,7 @@
-package no.omtheorem.radio
+package no.omtheorem.radio.shows
 
+import no.omtheorem.radio.tracks.TrackEntity
+import no.omtheorem.radio.tracks.TrackForm
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -62,7 +64,7 @@ class ShowsController (){
 
     @GetMapping("/shows/{showId}/tracks/create")
     fun showCreateTrackForm(@PathVariable showId: Long, model: Model): String {
-        model.addAttribute("track", TrackForm("",""))
+        model.addAttribute("track", TrackForm("", ""))
         model.addAttribute("showId", showId)
         return "shows/tracks/create"
     }

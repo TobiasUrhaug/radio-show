@@ -1,4 +1,4 @@
-package no.omtheorem.radio
+package no.omtheorem.radio.shows
 
 import org.springframework.data.repository.CrudRepository
 

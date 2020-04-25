@@ -1,8 +1,10 @@
-package no.omtheorem.radio
+package no.omtheorem.radio.shows
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.verify
+import no.omtheorem.radio.tracks.TrackEntity
+import no.omtheorem.radio.tracks.TrackForm
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -70,9 +72,9 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     @Test
     fun `listShows renders all shows ordered by descending id`() {
         val allShows = listOf(
-                ShowEntity("First", LocalDate.of(2020,3,15), 1),
-                ShowEntity("Second", LocalDate.of(2020,4,12), 2),
-                ShowEntity("Third", LocalDate.of(2020,5,17), 3)
+                ShowEntity("First", LocalDate.of(2020, 3, 15), 1),
+                ShowEntity("Second", LocalDate.of(2020, 4, 12), 2),
+                ShowEntity("Third", LocalDate.of(2020, 5, 17), 3)
         )
 
         every { showRepository.findAll() } returns allShows
@@ -93,7 +95,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
     @Test
     fun `showUpdateShowForm renders form with correct values`() {
-        val show = ShowEntity("Edit me!", LocalDate.of(2020,4,19), 1)
+        val show = ShowEntity("Edit me!", LocalDate.of(2020, 4, 19), 1)
 
         every { showRepository.findById(1) } returns Optional.of(show)
 
@@ -122,7 +124,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
     @Test
     fun `getDetails displays show details on the details page`() {
-        val show = ShowEntity("Show me!", LocalDate.of(2020, 5,14), 1)
+        val show = ShowEntity("Show me!", LocalDate.of(2020, 5, 14), 1)
 
         every { showRepository.findById(1) } returns Optional.of(show)
 
@@ -137,7 +139,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         this.mvc.perform(get("/shows/1/tracks/create"))
                 .andExpect(status().isOk)
                 .andExpect(view().name("shows/tracks/create"))
-                .andExpect(model().attribute("track", TrackForm("","")))
+                .andExpect(model().attribute("track", TrackForm("", "")))
                 .andExpect(model().attribute("showId", 1L))
     }
 
@@ -145,7 +147,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     fun `createTrack adds a track to a show`() {
         val alreadyExistingTrack = TrackEntity("Existing Artist", "Track!!")
         val addedTrack = TrackEntity("Added Artist", "Track number two")
-        val show = ShowEntity(id =1, tracks = listOf(alreadyExistingTrack))
+        val show = ShowEntity(id = 1, tracks = listOf(alreadyExistingTrack))
 
         every { showRepository.findById(1) } returns Optional.of(show)
 

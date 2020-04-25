@@ -1,4 +1,4 @@
-package no.omtheorem.radio
+package no.omtheorem.radio.tracks
 
 import javax.persistence.*
 

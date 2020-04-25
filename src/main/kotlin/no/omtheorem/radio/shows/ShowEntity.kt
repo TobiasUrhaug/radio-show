@@ -1,5 +1,6 @@
-package no.omtheorem.radio
+package no.omtheorem.radio.shows
 
+import no.omtheorem.radio.tracks.TrackEntity
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 import javax.persistence.*
