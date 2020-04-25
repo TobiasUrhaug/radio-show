@@ -28,7 +28,20 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `createShow saves the show to the repository and redirects to root`() {
+    fun `createShow saves the show to the repository`() {
+        val show = ShowEntity("Show Name", LocalDate.of(2020, 4, 12))
+
+        every { showRepository.save(show) } returns show
+
+        this.mvc.perform(post("/shows/create")
+                .param("name", show.name)
+                .param("date", show.date.toString())
+        )
+
+        verify (exactly = 1) { showRepository.save(show) }
+    }
+    @Test
+    fun `createShow redirects to root`() {
         val show = ShowEntity("Show Name", LocalDate.of(2020, 4, 12))
 
         every { showRepository.save(show) } returns show
@@ -39,8 +52,6 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(redirectedUrl("/"))
-
-        verify (exactly = 1) { showRepository.save(show) }
     }
 
     @Test
