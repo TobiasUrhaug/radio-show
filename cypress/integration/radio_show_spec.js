@@ -29,25 +29,28 @@ describe('Home page', function() {
   describe('Radio shows', function() {
 
     it('Lets users add new shows to the top of the list', () => {
-      add_show('A new Show!', '2020-04-10')
-      cy.url().should('eq', 'http://localhost:8080/')
+      const firstShow = {name:'The first show added', date: '2020-04-13'}
+      const secondShow = {name:'The second show added', date: '2020-05-15'}
+
+      cy.add_show(firstShow)
+
+      cy.get('[data-test=create-show]').click()
+      cy.get('[data-test=name-input').type(secondShow.name)
+      cy.get('[data-test=date-input').type(secondShow.date)
+      cy.get('[data-test=submit').click()
 
       cy.get('[data-test=show]')
         .first()
-        .should('contain', 'A new Show!')
-        .and('contain', '2020-04-10')
-
-      add_show('The second show added', '2020-05-14')
-      cy.get('[data-test=show]')
-        .first()
-        .should('contain', 'The second show added')
-        .and('contain', '2020-05-14')
+        .should('contain', secondShow.name)
+        .and('contain', secondShow.date)
       cy.get('[data-test=show]')
         .eq(1)
-        .should('contain', 'A new Show!')
-        .and('contain', '2020-04-10')
+        .should('contain', firstShow.name)
+        .and('contain', firstShow.date)
 
-      add_show('', '')
+      // Submitting an empty form should display error messages
+      cy.get('[data-test=create-show]').click()
+      cy.get('[data-test=submit').click()
       cy.url().should('eq', 'http://localhost:8080/shows/create')
       cy.get('[data-test=name-error]')
         .first()
@@ -61,84 +64,72 @@ describe('Home page', function() {
     describe('Show details', function() {
 
       it('Lets users see the details of a show', function() {
-        add_show('Show me your details', '2020-05-17')
+        const show = {name: 'Show me your details', date: '2020-05-17'}
+        cy.add_show(show)
         cy.get('[data-test=show-details').first().click()
         cy.get('[data-test=name]')
-          .should('have.value', 'Show me your details')
+          .should('have.value', show.name)
         cy.get('[data-test=date]')
-          .should('have.value', '2020-05-17')
+          .should('have.value', show.date)
       })
 
       it('Lets users delete shows', function() {
-        add_show('To be Deleted', '2020-04-17')
+        const showToBeDeleted = {name: 'To be deleted', date: '2020-05-19'}
+        cy.add_show(showToBeDeleted)
         cy.get('[data-test=show-details]').first().click()
         cy.get('[data-test=delete]').first().click()
         cy.url().should('eq', 'http://localhost:8080/')
         cy.get('[data-test=shows')
-          .should('not.contain', 'To be Deleted')
+          .should('not.contain', showToBeDeleted.name)
       })
 
       it('Lets users edit shows', function() {
-            const originalName = 'To be edited'
-            const originalDate = '2020-04-18'
-            const editedName = 'Edited name'
-            const editedDate = '2020-04-19'
+        const originalShow = {name: 'To be edited', date: '2020-04-18'}
+        const editedShow = {name: 'Edited name', date: '2020-04-19'}
+        cy.add_show(originalShow)
 
-            add_show(originalName, originalDate)
+        cy.get('[data-test=show-details]').first().click()
+        cy.get('[data-test=edit]').first().click()
+        cy.url().should('match', /shows\/[0-9]+\/update/)
+        cy.get('[data-test=name-input')
+          .should('have.value', originalShow.name)
+          .clear()
+          .type(editedShow.name)
+        cy.get('[data-test=date-input')
+          .should('have.value', originalShow.date)
+          .clear()
+          .type(editedShow.date)
+        cy.get('[data-test=submit').click()
 
-            cy.get('[data-test=show-details]').first().click()
-            cy.get('[data-test=edit]').first().click()
-            cy.url().should('match', /shows\/[0-9]+\/update/)
-            cy.get('[data-test=name-input')
-              .should('have.value', originalName)
-              .clear()
-              .type(editedName)
-            cy.get('[data-test=date-input')
-              .should('have.value', originalDate)
-              .clear()
-              .type(editedDate)
-            cy.get('[data-test=submit').click()
+        cy.url().should('eq', 'http://localhost:8080/')
+        cy.get('[data-test=shows')
+          .should('not.contain', originalShow.name)
+          .and('not.contain', originalShow.dDate)
+        cy.get('[data-test=show]')
+          .first()
+          .should('contain', editedShow.name)
+          .and('contain', editedShow.date)
+      })
 
-            cy.url().should('eq', 'http://localhost:8080/')
-            cy.get('[data-test=shows')
-              .should('not.contain', originalName)
-              .and('not.contain', originalDate)
-            cy.get('[data-test=show]')
-              .first()
-              .should('contain', editedName)
-              .and('contain', editedDate)
-          })
-
-          it('Lets users add tracks to a track list', function() {
-            add_show('Show with a track list', '2020-05-18')
-            cy.get('[data-test=show-details]').first().click()
-            cy.get('[data-test=tracklist]')
-              .should('not.be.empty')
-            cy.get('[data-test=add-track]').click()
-            cy.url().should('contain', '/tracks/create')
-            cy.get('[data-test=artist]')
-              .type('DJ Great Software!')
-            cy.get('[data-test=name')
-              .type('BDD or go home!')
-            cy.get('[data-test=submit]').click()
-            cy.url().should('match', /shows\/[0-9]+/)
-            cy.get('[data-test=tracklist')
-              .should('contain', 'DJ Great Software!')
-              .and('contain', 'BDD or go home!')
-          })
+      it('Lets users add tracks to a track list', function() {
+        cy.add_show({name: 'Show with a track list', date: '2020-05-18'})
+        cy.get('[data-test=show-details]').first().click()
+        cy.get('[data-test=tracklist]')
+          .should('not.be.empty')
+        cy.get('[data-test=add-track]').click()
+        cy.url().should('contain', '/tracks/create')
+        cy.get('[data-test=artist]')
+          .type('DJ Great Software!')
+        cy.get('[data-test=name')
+          .type('BDD or go home!')
+        cy.get('[data-test=submit]').click()
+        cy.url().should('match', /shows\/[0-9]+/)
+        cy.get('[data-test=tracklist')
+          .should('contain', 'DJ Great Software!')
+          .and('contain', 'BDD or go home!')
+      })
 
     })
-
-    function add_show(name, date) {
-      cy.get('[data-test=create-show]').click()
-      if (name !== "") {
-        cy.get('[data-test=name-input').type(name)
-      }
-      if (date !== "") {
-        cy.get('[data-test=date-input').type(date)
-      }
-      cy.get('[data-test=submit').click()
-    }
 
   })
 

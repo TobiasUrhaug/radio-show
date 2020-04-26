@@ -23,3 +23,18 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+  Cypress.Commands.add('add_show', (show) => {
+    cy.request({
+      method: 'POST',
+      url: '/shows/create',
+      form: true,
+      body: {
+          name: show.name,
+          date: show.date,
+          tracks: []
+      }
+    }).then((resp) => {
+      cy.visit('/')
+    })
+
+  })
