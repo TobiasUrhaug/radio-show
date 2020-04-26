@@ -5,11 +5,13 @@ import io.mockk.every
 import io.mockk.verify
 import no.omtheorem.radio.tracks.TrackEntity
 import no.omtheorem.radio.tracks.TrackForm
+import no.omtheorem.radio.tracks.TracklistForm
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import java.time.LocalDate
 import java.util.*
@@ -147,30 +149,36 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `showCreateTrackForm renders form`() {
+    fun `showCreateTracklistForm renders form with two empty tracks`() {
         this.mvc.perform(get("/shows/1/tracks/create"))
                 .andExpect(status().isOk)
                 .andExpect(view().name("shows/tracks/create"))
-                .andExpect(model().attribute("track", TrackForm("", "")))
+                .andExpect(model().attribute(
+                        "tracklist",
+                        TracklistForm(arrayListOf(TrackForm("",""), TrackForm("","")))
+                ))
                 .andExpect(model().attribute("showId", 1L))
     }
 
     @Test
-    fun `createTrack adds a track to a show`() {
+    fun `createTrack adds tracks to a show`() {
         val alreadyExistingTrack = TrackEntity("Existing Artist", "Track!!")
-        val addedTrack = TrackEntity("Added Artist", "Track number two")
         val show = ShowEntity(id = 1, tracks = listOf(alreadyExistingTrack))
 
         every { showRepository.findById(1) } returns Optional.of(show)
 
         val updatedShow = show.copy()
-        updatedShow.tracks = listOf(alreadyExistingTrack, addedTrack)
+        val addedTrackA = TrackEntity("Added Artist A", "Track number two")
+        val addedTrackB = TrackEntity("Added Artist B", "Track number three")
+        updatedShow.tracks = listOf(alreadyExistingTrack, addedTrackA, addedTrackB)
 
         every { showRepository.save(updatedShow) } returns updatedShow
 
         this.mvc.perform(post("/shows/1/tracks")
-                .param("artist", addedTrack.artist)
-                .param("name", addedTrack.name)
+                .param("tracks[0].artist", addedTrackA.artist)
+                .param("tracks[0].name", addedTrackA.name)
+                .param("tracks[1].artist", addedTrackB.artist)
+                .param("tracks[1].name", addedTrackB.name)
         )
 
         verify { showRepository.save(updatedShow) }
@@ -190,8 +198,8 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         every { showRepository.save(updatedShow) } returns updatedShow
 
         this.mvc.perform(post("/shows/1/tracks")
-                .param("artist", addedTrack.artist)
-                .param("name", addedTrack.name)
+                .param("tracks[0].artist", addedTrack.artist)
+                .param("tracks[0].name", addedTrack.name)
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(redirectedUrl("/shows/1"))

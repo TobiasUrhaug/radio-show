@@ -111,7 +111,7 @@ describe('Home page', function() {
           .and('contain', editedShow.date)
       })
 
-      it('Lets users add tracks to a track list', function() {
+      it('Lets users add two tracks at the time to a track list', function() {
         cy.add_show({name: 'Show with a track list', date: '2020-05-18'})
         cy.get('[data-test=show-details]').first().click()
         cy.get('[data-test=tracklist]')
@@ -120,19 +120,29 @@ describe('Home page', function() {
         cy.url().should('contain', '/tracks/create')
 
         const firstTrack = {artist: 'DJ Great Software', name: 'BDD or go home!'}
+        const secondTrack = {artist: 'DJ Second', name: 'Nature!'}
         cy.get('[data-test=artist]')
           .first()
           .type(firstTrack.artist)
         cy.get('[data-test=name')
           .first()
           .type(firstTrack.name)
+        cy.get('[data-test=artist]')
+          .eq(1)
+          .type(secondTrack.artist)
+        cy.get('[data-test=name]')
+          .eq(1)
+          .type(secondTrack.name)
 
         cy.get('[data-test=submit]').click()
         cy.url().should('match', /shows\/[0-9]+/)
         cy.get('[data-test=tracklist')
           .should('contain', firstTrack.artist)
           .and('contain', firstTrack.name)
-    })
+          .and('contain', secondTrack.artist)
+          .and('contain', secondTrack.name)
+
+      })
 
     })
 

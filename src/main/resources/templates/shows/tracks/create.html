@@ -9,34 +9,31 @@
     <form
             action="#"
             th:action="@{/shows/{id}/tracks (id=${showId})}"
-            th:object="${track}"
+            th:object="${tracklist}"
             method="post"
     >
+        <fieldset>
         <table>
             <thead>
                 <th>Artist</th>
                 <th>Title</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <input
-                                type="text"
-                                th:field="*{artist}"
+                <tr th:each="track, itemStat: *{tracks}">
+                    <td><input type="text"
+                               th:field="*{tracks[__${itemStat.index}__].artist}"
                                 data-test="artist"
                                 autofocus
-                        />
-                    </td>
-                    <td>
-                        <input
-                                type="text"
-                                th:field="*{name}"
-                                data-test="name"
-                        />
-                    </td>
+                    /></td>
+                    <td><input type="text"
+                               th:field="*{tracks[__${itemStat.index}__].name}"
+                               data-test="name"
+                               autofocus
+                    /></td>
                 </tr>
             </tbody>
         </table>
+        </fieldset>
         <br>
         <br>
         <br>

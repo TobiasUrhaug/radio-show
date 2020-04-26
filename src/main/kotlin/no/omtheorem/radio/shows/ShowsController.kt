@@ -2,6 +2,7 @@ package no.omtheorem.radio.shows
 
 import no.omtheorem.radio.tracks.TrackEntity
 import no.omtheorem.radio.tracks.TrackForm
+import no.omtheorem.radio.tracks.TracklistForm
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -65,19 +66,20 @@ class ShowsController (){
     }
 
     @GetMapping("/shows/{showId}/tracks/create")
-    fun showCreateTrackForm(@PathVariable showId: Long, model: Model): String {
-        model.addAttribute("track", TrackForm("", ""))
+    fun showCreateTracklistForm(@PathVariable showId: Long, model: Model): String {
+        val emptyTracks = arrayListOf(TrackForm("",""),TrackForm("",""))
+        model.addAttribute("tracklist", TracklistForm(emptyTracks))
         model.addAttribute("showId", showId)
         return "shows/tracks/create"
     }
 
     @PostMapping("/shows/{showId}/tracks")
-    fun createTrack(@PathVariable showId: Long, @ModelAttribute trackForm: TrackForm): String {
+    fun createTrack(@PathVariable showId: Long, @ModelAttribute(value = "tracks") tracklistForm: TracklistForm): String {
         val show = showRepository.findById(showId).get()
-        val trackEntity = TrackEntity(trackForm.artist, trackForm.name)
-        val tracks = show.tracks.toMutableList()
-        tracks.add(trackEntity)
-        show.tracks = tracks
+        val tracksOnTheShow = show.tracks.toMutableList()
+        val addedTracks = tracklistForm.tracks.map { it -> TrackEntity(it.artist, it.name) }
+        tracksOnTheShow.addAll(addedTracks)
+        show.tracks = tracksOnTheShow
         showRepository.save(show)
         return "redirect:/shows/$showId"
     }
