@@ -118,16 +118,21 @@ describe('Home page', function() {
           .should('not.be.empty')
         cy.get('[data-test=add-track]').click()
         cy.url().should('contain', '/tracks/create')
+
+        const firstTrack = {artist: 'DJ Great Software', name: 'BDD or go home!'}
         cy.get('[data-test=artist]')
-          .type('DJ Great Software!')
+          .first()
+          .type(firstTrack.artist)
         cy.get('[data-test=name')
-          .type('BDD or go home!')
+          .first()
+          .type(firstTrack.name)
+
         cy.get('[data-test=submit]').click()
         cy.url().should('match', /shows\/[0-9]+/)
         cy.get('[data-test=tracklist')
-          .should('contain', 'DJ Great Software!')
-          .and('contain', 'BDD or go home!')
-      })
+          .should('contain', firstTrack.artist)
+          .and('contain', firstTrack.name)
+    })
 
     })
 
