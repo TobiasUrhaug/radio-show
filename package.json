@@ -5,11 +5,10 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
-    "cypress": "^4.3.0",
-    "jasmine": "^3.5.0"
+    "cypress": "^4.3.0"
   },
   "scripts": {
-    "test": "jasmine",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "cypress": "cypress open",
     "cypress-run": "cypress run"
   },
