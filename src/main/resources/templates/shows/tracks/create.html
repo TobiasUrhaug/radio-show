@@ -5,7 +5,7 @@
 <body>
 <div th:insert="fragments/layout :: navbar"></div>
 <div class="container">
-    <h1>Tracklist</h1>
+    <h1>New tracklist</h1>
     <form
             action="#"
             th:action="@{/shows/{id}/tracks (id=${showId})}"
@@ -17,19 +17,19 @@
             <thead>
                 <th>Artist</th>
                 <th>Title</th>
+                <th></th>
             </thead>
-            <tbody>
-                <tr th:each="track, itemStat: *{tracks}">
-                    <td><input type="text"
-                               th:field="*{tracks[__${itemStat.index}__].artist}"
-                                data-test="artist"
-                                autofocus
-                    /></td>
-                    <td><input type="text"
-                               th:field="*{tracks[__${itemStat.index}__].name}"
-                               data-test="name"
-                               autofocus
-                    /></td>
+            <tbody id="tracklist" data-test="tracklist">
+                <tr id="inputs">
+                    <td>
+                        <input type="text" id="artist-input" data-test="artist-input" autofocus/>
+                    </td>
+                    <td>
+                        <input type="text" id="name-input" data-test="name-input"/>
+                    </td>
+                    <td>
+                        <button type="button" id="add-track" data-test="add-track">Add</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -37,8 +37,25 @@
         <br>
         <br>
         <br>
-        <input type="submit" data-test="submit" value="Add track">
+        <input type="submit" data-test="submit" value="Add tracklist">
     </form>
+
+    <script>
+        $('#add-track').click(function() {
+            let artist = $('#artist-input').val();
+            let name = $('#name-input').val();
+
+            $('#artist-input').val('');
+            $('#name-input').val('');
+
+            let rowNumber = $('#tracklist tr').length - 1;
+            let artistCell = '<td><input name="tracks[' + rowNumber + '].artist" type="text" value="' + artist + '" data-test="artist" readonly/>'
+            let nameCell = '<td><input name="tracks[' + rowNumber + '].name" type="text" value="' + name + '" data-test="name" readonly/>'
+
+            let row = '<tr data-test="tracks">' + artistCell + nameCell + '</tr>';
+            $(row).insertBefore('#inputs');
+        });
+    </script>
 </div>
 </body>
 </html>

@@ -149,14 +149,11 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `showCreateTracklistForm renders form with two empty tracks`() {
+    fun `showCreateTracklistForm renders form without any tracks`() {
         this.mvc.perform(get("/shows/1/tracks/create"))
                 .andExpect(status().isOk)
                 .andExpect(view().name("shows/tracks/create"))
-                .andExpect(model().attribute(
-                        "tracklist",
-                        TracklistForm(arrayListOf(TrackForm("",""), TrackForm("","")))
-                ))
+                .andExpect(model().attribute("tracklist", TracklistForm(arrayListOf())))
                 .andExpect(model().attribute("showId", 1L))
     }
 

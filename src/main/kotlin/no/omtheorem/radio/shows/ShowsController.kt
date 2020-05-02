@@ -67,8 +67,7 @@ class ShowsController (){
 
     @GetMapping("/shows/{showId}/tracks/create")
     fun showCreateTracklistForm(@PathVariable showId: Long, model: Model): String {
-        val emptyTracks = arrayListOf(TrackForm("",""),TrackForm("",""))
-        model.addAttribute("tracklist", TracklistForm(emptyTracks))
+        model.addAttribute("tracklist", TracklistForm(arrayListOf<TrackForm>()))
         model.addAttribute("showId", showId)
         return "shows/tracks/create"
     }

@@ -111,35 +111,42 @@ describe('Home page', function() {
           .and('contain', editedShow.date)
       })
 
-      it('Lets users add two tracks at the time to a track list', function() {
+      it('Lets users add a tracklist with flexible length', function() {
         cy.add_show({name: 'Show with a track list', date: '2020-05-18'})
         cy.get('[data-test=show-details]').first().click()
-        cy.get('[data-test=tracklist]')
-          .should('not.be.empty')
-        cy.get('[data-test=add-track]').click()
-        cy.url().should('contain', '/tracks/create')
+        cy.get('[data-test=add-tracklist]').click()
+        cy.url().should('match', /shows\/[0-9]+\/tracks\/create/)
 
         const firstTrack = {artist: 'DJ Great Software', name: 'BDD or go home!'}
         const secondTrack = {artist: 'DJ Second', name: 'Nature!'}
-        cy.get('[data-test=artist]')
-          .first()
-          .type(firstTrack.artist)
-        cy.get('[data-test=name')
-          .first()
-          .type(firstTrack.name)
-        cy.get('[data-test=artist]')
-          .eq(1)
-          .type(secondTrack.artist)
-        cy.get('[data-test=name]')
-          .eq(1)
-          .type(secondTrack.name)
+
+        cy.get('[data-test=artist-input]').type(firstTrack.artist)
+        cy.get('[data-test=name-input').type(firstTrack.name)
+        cy.get('[data-test=add-track]').click()
+
+        cy.get('[data-test=artist-input]').should('have.value', '')
+        cy.get('[data-test=name-input]').should('have.value', '')
+
+        cy.get('[data-test=artist-input]').type(secondTrack.artist)
+        cy.get('[data-test=name-input').type(secondTrack.name)
+        cy.get('[data-test=add-track]').click()
+
+        cy.get('[data-test=artist]').first().should('have.value', firstTrack.artist)
+        cy.get('[data-test=artist]').eq(1).should('have.value', secondTrack.artist)
+        cy.get('[data-test=name]').first().should('have.value', firstTrack.name)
+        cy.get('[data-test=name]').eq(1).should('have.value', secondTrack.name)
 
         cy.get('[data-test=submit]').click()
         cy.url().should('match', /shows\/[0-9]+/)
+
         cy.get('[data-test=tracklist')
+          .first()
           .should('contain', firstTrack.artist)
           .and('contain', firstTrack.name)
-          .and('contain', secondTrack.artist)
+
+        cy.get('[data-test=tracklist]')
+          .eq(1)
+          .should('contain', secondTrack.artist)
           .and('contain', secondTrack.name)
 
       })

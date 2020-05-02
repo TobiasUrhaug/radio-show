@@ -25,19 +25,19 @@
     <br>
     <br>
     <h2>Tracklist</h2>
-    <table class="table" data-test="tracklist">
+    <table class="table">
         <thead>
             <th>Artist</th>
             <th>Name</th>
         </thead>
-        <tbody th:each="track: ${show.tracks}">
+        <tbody th:each="track: ${show.tracks}" data-test="tracklist">
             <td th:text="${track.artist}"></td>
             <td th:text="${track.name}"></td>
         </tbody>
     </table>
     <br>
-    <button type="submit" data-test="add-track">
-        <a th:href="@{/shows/{id}/tracks/create(id=${showId})}">Add track</a>
+    <button type="submit" data-test="add-tracklist">
+        <a th:href="@{/shows/{id}/tracks/create(id=${showId})}">Create tracklist</a>
     </button>
     <br>
     <br>
