@@ -4,7 +4,6 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.verify
 import no.omtheorem.radio.tracks.TrackEntity
-import no.omtheorem.radio.tracks.TrackForm
 import no.omtheorem.radio.tracks.TracklistForm
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -121,8 +120,16 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
     @Test
     fun `updateShow updates the show and redirects to the shows details page`() {
-        val showEntity = ShowEntity("New name", LocalDate.of(2020, 4, 22), 1)
+        val trackA = TrackEntity("artist A", "track A")
 
+        val showEntity = ShowEntity(
+                "New name",
+                LocalDate.of(2020, 4, 22),
+                1,
+                listOf(trackA)
+        )
+
+        every { showRepository.findById(1) } returns Optional.of(showEntity)
         every { showRepository.save(showEntity) } returns showEntity
 
         this.mvc.perform(post("/shows/1/update")

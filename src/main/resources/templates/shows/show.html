@@ -19,8 +19,8 @@
             <th>Name</th>
         </thead>
         <tbody th:each="track: ${show.tracks}" data-test="tracklist">
-            <td th:text="${track.artist}"></td>
-            <td th:text="${track.name}"></td>
+            <td th:text="${track.artist}" data-test="artist"></td>
+            <td th:text="${track.name}" data-test="name"></td>
         </tbody>
     </table>
     <br>

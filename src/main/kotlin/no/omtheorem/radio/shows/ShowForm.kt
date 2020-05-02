@@ -10,7 +10,7 @@ class ShowForm(
         val name: String = "",
         @get:NotEmpty(message = "Please select a date")
         val date: String = "",
-        val tracks: List<TrackForm> = emptyList()
+        val tracks: List<TrackForm> = ArrayList()
 ) {
 
     constructor(showEntity: ShowEntity) : this(

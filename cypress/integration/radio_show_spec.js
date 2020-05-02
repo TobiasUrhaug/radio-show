@@ -110,6 +110,21 @@ describe('Home page', function() {
           .first()
           .should('contain', editedShow.name)
           .and('contain', editedShow.date)
+
+        // Tests that the tracklist of a show is preserved after edit
+        cy.get('[data-test=show-details]').first().click()
+        cy.get('[data-test=add-tracks]').click()
+
+        cy.get('[data-test=artist-input]').type('Artist')
+        cy.get('[data-test=name-input').type('Title')
+        cy.get('[data-test=add-track]').click()
+        cy.get('[data-test=submit]').click()
+
+        cy.get('[data-test=edit]').first().click()
+        cy.get('[data-test=submit]').click()
+
+        cy.get('[data-test=artist]').first().should('contain.text', 'Artist')
+        cy.get('[data-test=name]').first().should('contain.text', 'Title')
       })
 
       it('Lets users add tracks to the bottom of the tracklist', function() {
