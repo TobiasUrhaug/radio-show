@@ -67,10 +67,8 @@ describe('Home page', function() {
         const show = {name: 'Show me your details', date: '2020-05-17'}
         cy.add_show(show)
         cy.get('[data-test=show-details').first().click()
-        cy.get('[data-test=name]')
-          .should('have.value', show.name)
-        cy.get('[data-test=date]')
-          .should('have.value', show.date)
+
+        cy.get('h1').should('contain.text', show.date).and('contain.text', show.name)
       })
 
       it('Lets users delete shows', function() {
