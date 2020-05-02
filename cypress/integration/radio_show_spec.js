@@ -112,10 +112,10 @@ describe('Home page', function() {
           .and('contain', editedShow.date)
       })
 
-      it('Lets users add a tracklist with flexible length', function() {
+      it('Lets users add tracks to the bottom of the tracklist', function() {
         cy.add_show({name: 'Show with a track list', date: '2020-05-18'})
         cy.get('[data-test=show-details]').first().click()
-        cy.get('[data-test=add-tracklist]').click()
+        cy.get('[data-test=add-tracks]').click()
         cy.url().should('match', /shows\/[0-9]+\/tracks\/create/)
 
         const firstTrack = {artist: 'DJ Great Software', name: 'BDD or go home!'}

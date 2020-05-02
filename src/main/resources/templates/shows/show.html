@@ -10,6 +10,9 @@
     <br>
     <br>
     <h2>Tracklist</h2>
+    <button type="submit" data-test="add-tracks">
+        <a th:href="@{/shows/{id}/tracks/create(id=${showId})}">Add tracks</a>
+    </button>
     <table class="table">
         <thead>
             <th>Artist</th>
@@ -20,10 +23,6 @@
             <td th:text="${track.name}"></td>
         </tbody>
     </table>
-    <br>
-    <button type="submit" data-test="add-tracklist">
-        <a th:href="@{/shows/{id}/tracks/create(id=${showId})}">Create tracklist</a>
-    </button>
     <br>
     <br>
     <br>
