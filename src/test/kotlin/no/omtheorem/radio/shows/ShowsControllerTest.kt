@@ -120,7 +120,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `updateShow updates the show and redirects to root`() {
+    fun `updateShow updates the show and redirects to the shows details page`() {
         val showEntity = ShowEntity("New name", LocalDate.of(2020, 4, 22), 1)
 
         every { showRepository.save(showEntity) } returns showEntity
@@ -130,7 +130,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
                 .param("date", showEntity.date.toString())
         )
                 .andExpect(status().is3xxRedirection)
-                .andExpect(redirectedUrl("/"))
+                .andExpect(redirectedUrl("/shows/1"))
 
         verify { showRepository.save(showEntity) }
     }

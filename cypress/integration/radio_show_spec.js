@@ -99,7 +99,10 @@ describe('Home page', function() {
           .type(editedShow.date)
         cy.get('[data-test=submit').click()
 
-        cy.url().should('eq', 'http://localhost:8080/')
+        cy.url().should('match', /shows\/[0-9]+/)
+        cy.get('h1').should('contain.text', editedShow.date).and('contain.text', editedShow.name)
+
+        cy.visit('/')
         cy.get('[data-test=shows')
           .should('not.contain', originalShow.name)
           .and('not.contain', originalShow.dDate)

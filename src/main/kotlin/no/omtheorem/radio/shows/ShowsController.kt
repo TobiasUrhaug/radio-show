@@ -54,7 +54,7 @@ class ShowsController (){
     @PostMapping("/shows/{showId}/update")
     fun updateShow(@PathVariable showId: Long, @ModelAttribute showForm: ShowForm): String {
         showRepository.save(ShowEntity(showForm.name, showForm.localDate(), showId))
-        return "redirect:/"
+        return "redirect:/shows/$showId"
     }
 
     @GetMapping("/shows/{showId}")
