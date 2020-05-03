@@ -15,7 +15,10 @@
         <div th:insert="shows/create :: show-fields"></div>
         <br/>
         <br/>
-        <input type="submit" data-test="submit" value="Submit changes">
+        <input type="submit" data-test="submit" value="Submit changes"/>
+        <button type="button" data-test="cancel">
+            <a th:href="@{/shows/{id}(id=${showId})}">Cancel</a>
+        </button>
     </form>
 </div>
 </body>

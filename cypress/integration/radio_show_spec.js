@@ -125,6 +125,21 @@ describe('Home page', function() {
 
         cy.get('[data-test=artist]').first().should('contain.text', 'Artist')
         cy.get('[data-test=name]').first().should('contain.text', 'Title')
+
+        // Test cancel of edit
+        const editCancelShow = {name: 'Edit was cancelled', date: '2020-04-23'}
+        cy.add_show(editCancelShow)
+        cy.get('[data-test=show-details]').first().click()
+        cy.get('[data-test=edit]').first().click()
+        cy.get('[data-test=name-input]')
+          .clear()
+          .type('This should not be persisted')
+        cy.get('[data-test=date-input]')
+          .clear()
+          .type('2020-04-29')
+        cy.get('[data-test=cancel]').click()
+        cy.url().should('match', /shows\/[0-9]+/)
+        cy.get('h1').should('contain.text', editCancelShow.name).and('contain.text', editCancelShow.date)
       })
 
       it('Lets users add tracks to the bottom of the tracklist', function() {
