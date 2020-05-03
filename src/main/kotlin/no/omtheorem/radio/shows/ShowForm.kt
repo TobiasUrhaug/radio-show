@@ -16,7 +16,7 @@ class ShowForm(
     constructor(showEntity: ShowEntity) : this(
             name = showEntity.name,
             date = showEntity.date.toString(),
-            tracks = showEntity.tracks.map { it -> TrackForm(it.artist, it.name) }
+            tracks = showEntity.tracks.map { it -> TrackForm(it.artist, it.name, it.url) }
     ) {
     }
 

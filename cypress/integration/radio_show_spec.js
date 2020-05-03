@@ -133,24 +133,35 @@ describe('Home page', function() {
         cy.get('[data-test=add-tracks]').click()
         cy.url().should('match', /shows\/[0-9]+\/tracks\/create/)
 
-        const firstTrack = {artist: 'DJ Great Software', name: 'BDD or go home!'}
-        const secondTrack = {artist: 'DJ Second', name: 'Nature!'}
+        const firstTrack = {artist: 'DJ Great Software', name: 'BDD or go home!', url: 'https://www.example.com'}
+        const secondTrack = {artist: 'DJ Second', name: 'Nature!', url: 'https://omtheorem.no'}
 
         cy.get('[data-test=artist-input]').type(firstTrack.artist)
         cy.get('[data-test=name-input').type(firstTrack.name)
+        cy.get('[data-test=url-input]').type(firstTrack.url)
         cy.get('[data-test=add-track]').click()
 
         cy.get('[data-test=artist-input]').should('have.value', '')
         cy.get('[data-test=name-input]').should('have.value', '')
+        cy.get('[data-test=url-input]').should('have.value', '')
 
         cy.get('[data-test=artist-input]').type(secondTrack.artist)
         cy.get('[data-test=name-input').type(secondTrack.name)
+        cy.get('[data-test=url-input').type(secondTrack.url)
         cy.get('[data-test=add-track]').click()
 
-        cy.get('[data-test=artist]').first().should('have.value', firstTrack.artist)
-        cy.get('[data-test=artist]').eq(1).should('have.value', secondTrack.artist)
-        cy.get('[data-test=name]').first().should('have.value', firstTrack.name)
-        cy.get('[data-test=name]').eq(1).should('have.value', secondTrack.name)
+        cy.get('[data-test=artist]').then(artists => {
+            expect(artists[0]).to.have.value(firstTrack.artist)
+            expect(artists[1]).to.have.value(secondTrack.artist)
+        })
+        cy.get('[data-test=name]').then(names => {
+            expect(names[0]).to.have.value(firstTrack.name)
+            expect(names[1]).to.have.value(secondTrack.name)
+        })
+        cy.get('[data-test=url]').then(urls => {
+          expect(urls[0]).to.have.value(firstTrack.url)
+          expect(urls[1]).to.have.value(secondTrack.url)
+        })
 
         cy.get('[data-test=submit]').click()
         cy.url().should('match', /shows\/[0-9]+/)
@@ -159,11 +170,13 @@ describe('Home page', function() {
           .first()
           .should('contain', firstTrack.artist)
           .and('contain', firstTrack.name)
+          .and('contain', firstTrack.url)
 
         cy.get('[data-test=tracklist]')
           .eq(1)
           .should('contain', secondTrack.artist)
           .and('contain', secondTrack.name)
+          .and('contain', secondTrack.url)
 
       })
 

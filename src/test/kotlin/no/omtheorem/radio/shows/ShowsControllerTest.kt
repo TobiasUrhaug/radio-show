@@ -165,15 +165,15 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `createTrack adds tracks to a show`() {
-        val alreadyExistingTrack = TrackEntity("Existing Artist", "Track!!")
+    fun `createTracks adds tracks to a show`() {
+        val alreadyExistingTrack = TrackEntity("Existing Artist", "Track!!", url = "www.example.com")
         val show = ShowEntity(id = 1, tracks = listOf(alreadyExistingTrack))
 
         every { showRepository.findById(1) } returns Optional.of(show)
 
         val updatedShow = show.copy()
-        val addedTrackA = TrackEntity("Added Artist A", "Track number two")
-        val addedTrackB = TrackEntity("Added Artist B", "Track number three")
+        val addedTrackA = TrackEntity("Added Artist A", "Track number two", url = "url A")
+        val addedTrackB = TrackEntity("Added Artist B", "Track number three", url = "url B")
         updatedShow.tracks = listOf(alreadyExistingTrack, addedTrackA, addedTrackB)
 
         every { showRepository.save(updatedShow) } returns updatedShow
@@ -181,15 +181,17 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         this.mvc.perform(post("/shows/1/tracks")
                 .param("tracks[0].artist", addedTrackA.artist)
                 .param("tracks[0].name", addedTrackA.name)
+                .param("tracks[0].url", addedTrackA.url)
                 .param("tracks[1].artist", addedTrackB.artist)
                 .param("tracks[1].name", addedTrackB.name)
+                .param("tracks[1].url", addedTrackB.url)
         )
 
         verify { showRepository.save(updatedShow) }
     }
 
     @Test
-    fun `createTrack redirects to the shows url`() {
+    fun `createTracks redirects to the shows url`() {
         val alreadyExistingTrack = TrackEntity("Existing Artist", "Track!!")
         val addedTrack = TrackEntity("Added Artist", "Track number two")
         val show = ShowEntity(id = 1, tracks = listOf(alreadyExistingTrack))

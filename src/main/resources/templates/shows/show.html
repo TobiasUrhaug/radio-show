@@ -17,10 +17,12 @@
         <thead>
             <th>Artist</th>
             <th>Name</th>
+            <th>URL</th>
         </thead>
         <tbody th:each="track: ${show.tracks}" data-test="tracklist">
             <td th:text="${track.artist}" data-test="artist"></td>
             <td th:text="${track.name}" data-test="name"></td>
+            <td th:text="${track.url}" data-test="url"></td>
         </tbody>
     </table>
     <br>

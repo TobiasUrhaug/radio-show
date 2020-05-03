@@ -16,6 +16,7 @@
             <thead>
                 <th>Artist</th>
                 <th>Title</th>
+                <th>URL</th>
                 <th></th>
             </thead>
             <tbody id="tracklist" data-test="tracklist">
@@ -25,6 +26,9 @@
                     </td>
                     <td>
                         <input type="text" id="name-input" data-test="name-input"/>
+                    </td>
+                    <td>
+                        <input type="text" id="url-input" data-test="url-input"/>
                     </td>
                     <td>
                         <button type="button" id="add-track" data-test="add-track">Add</button>
@@ -43,15 +47,18 @@
         $('#add-track').click(function() {
             let artist = $('#artist-input').val();
             let name = $('#name-input').val();
+            let url = $('#url-input').val();
 
             $('#artist-input').val('');
             $('#name-input').val('');
+            $('#url-input').val('');
 
             let rowNumber = $('#tracklist tr').length - 1;
-            let artistCell = '<td><input name="tracks[' + rowNumber + '].artist" type="text" value="' + artist + '" data-test="artist" readonly/>'
-            let nameCell = '<td><input name="tracks[' + rowNumber + '].name" type="text" value="' + name + '" data-test="name" readonly/>'
+            let artistCell = '<td><input name="tracks[' + rowNumber + '].artist" type="text" value="' + artist + '" data-test="artist" readonly/></td>'
+            let nameCell = '<td><input name="tracks[' + rowNumber + '].name" type="text" value="' + name + '" data-test="name" readonly/></td>'
+            let urlCell = '<td><input name="tracks[' + rowNumber + '].url" type="text" value="' + url + '" data-test="url" readonly/></td>'
 
-            let row = '<tr data-test="tracks">' + artistCell + nameCell + '</tr>';
+            let row = '<tr data-test="tracks">' + artistCell + nameCell + urlCell + '</tr>';
             $(row).insertBefore('#inputs');
         });
     </script>
