@@ -116,7 +116,7 @@ describe('Home page', function() {
         cy.get('[data-test=add-tracks]').click()
 
         cy.get('[data-test=artist-input]').type('Artist')
-        cy.get('[data-test=name-input').type('Title')
+        cy.get('[data-test=title-input').type('Title')
         cy.get('[data-test=add-track]').click()
         cy.get('[data-test=submit]').click()
 
@@ -124,7 +124,7 @@ describe('Home page', function() {
         cy.get('[data-test=submit]').click()
 
         cy.get('[data-test=artist]').first().should('contain.text', 'Artist')
-        cy.get('[data-test=name]').first().should('contain.text', 'Title')
+        cy.get('[data-test=title]').first().should('contain.text', 'Title')
 
         // Test cancel of edit
         const editCancelShow = {name: 'Edit was cancelled', date: '2020-04-23'}
@@ -148,20 +148,20 @@ describe('Home page', function() {
         cy.get('[data-test=add-tracks]').click()
         cy.url().should('match', /shows\/[0-9]+\/tracks\/create/)
 
-        const firstTrack = {artist: 'DJ Great Software', name: 'BDD or go home!', url: 'https://www.example.com'}
-        const secondTrack = {artist: 'DJ Second', name: 'Nature!', url: 'https://omtheorem.no'}
+        const firstTrack = {artist: 'DJ Great Software', title: 'BDD or go home!', url: 'https://www.example.com'}
+        const secondTrack = {artist: 'DJ Second', title: 'Nature!', url: 'https://omtheorem.no'}
 
         cy.get('[data-test=artist-input]').type(firstTrack.artist)
-        cy.get('[data-test=name-input').type(firstTrack.name)
+        cy.get('[data-test=title-input').type(firstTrack.title)
         cy.get('[data-test=url-input]').type(firstTrack.url)
         cy.get('[data-test=add-track]').click()
 
         cy.get('[data-test=artist-input]').should('have.value', '')
-        cy.get('[data-test=name-input]').should('have.value', '')
+        cy.get('[data-test=title-input]').should('have.value', '')
         cy.get('[data-test=url-input]').should('have.value', '')
 
         cy.get('[data-test=artist-input]').type(secondTrack.artist)
-        cy.get('[data-test=name-input').type(secondTrack.name)
+        cy.get('[data-test=title-input').type(secondTrack.title)
         cy.get('[data-test=url-input').type(secondTrack.url)
         cy.get('[data-test=add-track]').click()
 
@@ -169,9 +169,9 @@ describe('Home page', function() {
             expect(artists[0]).to.have.value(firstTrack.artist)
             expect(artists[1]).to.have.value(secondTrack.artist)
         })
-        cy.get('[data-test=name]').then(names => {
-            expect(names[0]).to.have.value(firstTrack.name)
-            expect(names[1]).to.have.value(secondTrack.name)
+        cy.get('[data-test=title]').then(titles => {
+            expect(titles[0]).to.have.value(firstTrack.title)
+            expect(titles[1]).to.have.value(secondTrack.title)
         })
         cy.get('[data-test=url]').then(urls => {
           expect(urls[0]).to.have.value(firstTrack.url)
@@ -184,13 +184,13 @@ describe('Home page', function() {
         cy.get('[data-test=tracklist')
           .first()
           .should('contain', firstTrack.artist)
-          .and('contain', firstTrack.name)
+          .and('contain', firstTrack.title)
           .and('contain', firstTrack.url)
 
         cy.get('[data-test=tracklist]')
           .eq(1)
           .should('contain', secondTrack.artist)
-          .and('contain', secondTrack.name)
+          .and('contain', secondTrack.title)
           .and('contain', secondTrack.url)
 
       })

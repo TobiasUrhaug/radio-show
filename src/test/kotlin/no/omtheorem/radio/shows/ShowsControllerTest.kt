@@ -180,10 +180,10 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
         this.mvc.perform(post("/shows/1/tracks")
                 .param("tracks[0].artist", addedTrackA.artist)
-                .param("tracks[0].name", addedTrackA.name)
+                .param("tracks[0].title", addedTrackA.name)
                 .param("tracks[0].url", addedTrackA.url)
                 .param("tracks[1].artist", addedTrackB.artist)
-                .param("tracks[1].name", addedTrackB.name)
+                .param("tracks[1].title", addedTrackB.name)
                 .param("tracks[1].url", addedTrackB.url)
         )
 
@@ -205,7 +205,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
         this.mvc.perform(post("/shows/1/tracks")
                 .param("tracks[0].artist", addedTrack.artist)
-                .param("tracks[0].name", addedTrack.name)
+                .param("tracks[0].title", addedTrack.name)
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(redirectedUrl("/shows/1"))

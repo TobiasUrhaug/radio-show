@@ -1,3 +1,3 @@
 package no.omtheorem.radio.tracks
 
-data class TrackForm(var artist: String = "", var name: String = "", var url: String = "")
+data class TrackForm(var artist: String = "", var title: String = "", var url: String = "")
