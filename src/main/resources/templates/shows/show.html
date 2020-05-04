@@ -13,16 +13,18 @@
     <button type="submit" data-test="add-tracks">
         <a th:href="@{/shows/{id}/tracks/create(id=${showId})}">Add tracks</a>
     </button>
-    <table class="table">
-        <thead>
+    <table class="table table-striped">
+        <thead class="thead-dark">
             <th>Artist</th>
             <th>Title</th>
             <th>URL</th>
         </thead>
-        <tbody th:each="track: ${show.tracks}" data-test="tracklist">
-            <td th:text="${track.artist}" data-test="artist"></td>
-            <td th:text="${track.title}" data-test="title"></td>
-            <td th:text="${track.url}" data-test="url"></td>
+        <tbody>
+            <tr th:each="track: ${show.tracks}" data-test="tracklist">
+                <td th:text="${track.artist}" data-test="artist"></td>
+                <td th:text="${track.title}" data-test="title"></td>
+                <td th:text="${track.url}" data-test="url"></td>
+            </tr>
         </tbody>
     </table>
     <br>
