@@ -58,6 +58,8 @@ describe('Home page', function() {
       cy.get('[data-test=date-error')
         .first()
         .should('not.be.empty')
+      cy.get('[data-test=cancel]').click()
+      cy.url().should('eq', 'http://localhost:8080/')
 
     })
 
