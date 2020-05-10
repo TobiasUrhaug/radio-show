@@ -162,9 +162,12 @@ describe('Home page', function() {
         addToTracklist(thirdTrack)
         addToTracklist(secondTrack)
         cy.get('[data-test=tracks]').eq(2).find('[data-test=move-up]').click()
+        cy.get('[data-test=tracks]').eq(1).find('[data-test=move-up]').click()
+        cy.get('[data-test=tracks]').eq(0).find('[data-test=move-down]').click()
 
         // This should not do anything
         cy.get('[data-test=tracks]').first().find('[data-test=move-up]').click()
+        cy.get('[data-test=tracks]').last().find('[data-test=move-down]').click()
 
         cy.get('[data-test=artist]').then(artists => {
             expect(artists[0]).to.have.value(firstTrack.artist)

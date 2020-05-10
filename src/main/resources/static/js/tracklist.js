@@ -12,8 +12,16 @@ function addTrack() {
   let titleCell = '<td><input name="tracks[' + rowNumber + '].title" id="title" type="text" value="' + title + '" data-test="title" readonly/></td>'
   let urlCell = '<td><input name="tracks[' + rowNumber + '].url" id="url" type="text" value="' + url + '" data-test="url" readonly/></td>'
   let moveUpBtn = '<td><button type="button" data-test="move-up" id="move-up">Move Up</button></td>'
+  let moveDownBtn = '<td><button type="button" data-test="move-down" id="move-down">Move Down</button></td>'
 
-  let row = '<tr id="tracks" data-test="tracks">' + artistCell + titleCell + urlCell + moveUpBtn + '</tr>';
+  let row =
+    '<tr id="tracks" data-test="tracks">'
+    + artistCell
+    + titleCell
+    + urlCell
+    + moveUpBtn
+    + moveDownBtn
+    + '</tr>';
   $(row).insertBefore('#inputs');
 
   $('#artist-input').focus();
@@ -21,16 +29,24 @@ function addTrack() {
 
 $(function(){
   $('#tracklist').on('click', '#move-up', function(e) {
-    let sourceRow = $(this).closest('tr');
-    if (sourceRow.index() != 0) {
-     let destinationRow = sourceRow.prev();
-
-     swapValues(sourceRow, destinationRow, '#artist');
-     swapValues(sourceRow, destinationRow, '#title');
-     swapValues(sourceRow, destinationRow, '#url');
+    let row = $(this).closest('tr');
+    if (row.index() > 0) {
+      swapRows(row, row.prev());
+    }
+  })
+  $('#tracklist').on('click', '#move-down', function(e) {
+    let row = $(this).closest('tr');
+    if (row.index() < $('#inputs').index() - 1) {
+      swapRows(row, row.next());
     }
   })
 });
+
+function swapRows(row1, row2) {
+  swapValues(row1, row2, '#artist');
+  swapValues(row1, row2, '#title');
+  swapValues(row1, row2, '#url');
+}
 
 function swapValues(element1, element2, selector) {
    let temp = $(element1).find(selector).val();
