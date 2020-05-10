@@ -14,4 +14,6 @@ function addTrack() {
 
   let row = '<tr id="tracks" data-test="tracks">' + artistCell + titleCell + urlCell + '</tr>';
   $(row).insertBefore('#inputs');
+
+  $('#artist-input').focus();
 }

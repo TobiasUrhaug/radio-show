@@ -44,5 +44,18 @@ describe("Tracklist", function() {
     expect($('#url-input').val()).toBe('');
   });
 
+  it("addTrack puts focus on artist input", function() {
+    loadFixtures('tracklist.html');
+
+    const track = {artist: 'Artist Name', title: 'track title', url: 'url'};
+    $('#artist-input').val(track.artist);
+    $('#title-input').val(track.title);
+    $('#url-input').val(track.url);
+
+    addTrack();
+
+    expect($('#artist-input')).toBeFocused();
+  });
+
 });
 
