@@ -14,11 +14,12 @@
             method="post"
     >
         <fieldset>
-        <table>
-            <thead>
+        <table class="table">
+            <thead class="thead-dark">
                 <th>Artist</th>
                 <th>Title</th>
                 <th>URL</th>
+                <th></th>
                 <th></th>
             </thead>
             <tbody id="tracklist" data-test="tracklist">
@@ -32,8 +33,8 @@
                     <td>
                         <input type="text" id="url-input" data-test="url-input"/>
                     </td>
-                    <td>
-                        <button type="button" id="add-track" data-test="add-track" onclick="addTrack()">Add</button>
+                    <td colspan="2">
+                        <button type="button" class="btn btn-outline-secondary" id="add-track" data-test="add-track" onclick="addTrack()">Add</button>
                     </td>
                 </tr>
             </tbody>
@@ -42,7 +43,7 @@
         <br>
         <br>
         <br>
-        <input type="submit" data-test="submit" value="Add to tracklist">
+        <input type="submit" class="btn btn-secondary" data-test="submit" value="Add to tracklist">
     </form>
 </div>
 </body>
