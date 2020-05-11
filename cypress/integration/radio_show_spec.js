@@ -115,7 +115,7 @@ describe('Home page', function() {
 
         // Tests that the tracklist of a show is preserved after edit
         cy.get('[data-test=show-details]').first().click()
-        cy.get('[data-test=add-tracks]').click()
+        cy.get('[data-test=create-tracklist]').click()
 
         cy.get('[data-test=artist-input]').type('Artist')
         cy.get('[data-test=title-input').type('Title')
@@ -144,10 +144,10 @@ describe('Home page', function() {
         cy.get('h1').should('contain.text', editCancelShow.name).and('contain.text', editCancelShow.date)
       })
 
-      it('Lets users add tracks to the bottom of the tracklist', function() {
+      it('Lets users add a tracklist', function() {
         cy.add_show({name: 'Show with a track list', date: '2020-05-18'})
         cy.get('[data-test=show-details]').first().click()
-        cy.get('[data-test=add-tracks]').click()
+        cy.get('[data-test=create-tracklist]').click()
         cy.url().should('match', /shows\/[0-9]+\/tracks\/create/)
 
         const firstTrack = {artist: 'DJ Great Software', title: 'BDD or go home!', url: 'https://www.example.com'}
@@ -194,6 +194,25 @@ describe('Home page', function() {
           assertRowContainsTrack(tracks[2], thirdTrack)
         })
 
+      })
+
+      it('Lets users overwrite a tracklist', function() {
+        cy.add_show({name: 'Show with a overwritten track list', date: '2020-05-19'})
+        cy.get('[data-test=show-details]').first().click()
+        cy.get('[data-test=create-tracklist]').click()
+
+        const firstTrack = {artist: 'DJ Great Software', title: 'BDD or go home!', url: 'https://www.example.com'}
+        addToTracklist(firstTrack)
+        cy.get('[data-test=submit]').click()
+
+        cy.get('[data-test=create-tracklist]').click()
+        const secondTrack = {artist: 'DJ Second', title: 'Nature!', url: 'https://omtheorem.no'}
+        addToTracklist(secondTrack)
+        cy.get('[data-test=submit]').click()
+
+        cy.get('[data-test=tracklist').then(tracks => {
+          assertRowContainsTrack(tracks[0], secondTrack)
+        })
       })
 
     })

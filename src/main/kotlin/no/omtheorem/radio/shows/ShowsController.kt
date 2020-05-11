@@ -74,12 +74,9 @@ class ShowsController (){
     }
 
     @PostMapping("/shows/{showId}/tracks")
-    fun createTracks(@PathVariable showId: Long, @ModelAttribute(value = "tracks") tracklistForm: TracklistForm): String {
+    fun createTracklist(@PathVariable showId: Long, @ModelAttribute(value = "tracks") tracklistForm: TracklistForm): String {
         val show = showRepository.findById(showId).get()
-        val tracksOnTheShow = show.tracks.toMutableList()
-        val addedTracks = tracklistForm.tracks.map { it -> TrackEntity(it.artist, it.title, url = it.url) }
-        tracksOnTheShow.addAll(addedTracks)
-        show.tracks = tracksOnTheShow
+        show.tracks = tracklistForm.tracks.map { it -> TrackEntity(it.artist, it.title, url = it.url) }
         showRepository.save(show)
         return "redirect:/shows/$showId"
     }

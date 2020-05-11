@@ -165,16 +165,15 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `createTracks adds tracks to a show`() {
-        val alreadyExistingTrack = TrackEntity("Existing Artist", "Track!!", url = "www.example.com")
-        val show = ShowEntity(id = 1, tracks = listOf(alreadyExistingTrack))
+    fun `createTracklist adds a tracklist to a show`() {
+        val show = ShowEntity(id = 1, tracks = listOf())
 
         every { showRepository.findById(1) } returns Optional.of(show)
 
         val updatedShow = show.copy()
         val addedTrackA = TrackEntity("Added Artist A", "Track number two", url = "url A")
         val addedTrackB = TrackEntity("Added Artist B", "Track number three", url = "url B")
-        updatedShow.tracks = listOf(alreadyExistingTrack, addedTrackA, addedTrackB)
+        updatedShow.tracks = listOf(addedTrackA, addedTrackB)
 
         every { showRepository.save(updatedShow) } returns updatedShow
 
@@ -191,22 +190,35 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `createTracks redirects to the shows url`() {
-        val alreadyExistingTrack = TrackEntity("Existing Artist", "Track!!")
-        val addedTrack = TrackEntity("Added Artist", "Track number two")
+    fun `createTracklist creating a tracklist overwrites an already existing one`() {
+        val alreadyExistingTrack = TrackEntity("Existing Artist", "Track!!", url = "www.example.com")
         val show = ShowEntity(id = 1, tracks = listOf(alreadyExistingTrack))
 
         every { showRepository.findById(1) } returns Optional.of(show)
 
         val updatedShow = show.copy()
-        updatedShow.tracks = listOf(alreadyExistingTrack, addedTrack)
+        val newTrack = TrackEntity("Added Artist A", "Track number two", url = "url A")
+        updatedShow.tracks = listOf(newTrack)
 
         every { showRepository.save(updatedShow) } returns updatedShow
 
         this.mvc.perform(post("/shows/1/tracks")
-                .param("tracks[0].artist", addedTrack.artist)
-                .param("tracks[0].title", addedTrack.name)
+                .param("tracks[0].artist", newTrack.artist)
+                .param("tracks[0].title", newTrack.name)
+                .param("tracks[0].url", newTrack.url)
         )
+
+        verify { showRepository.save(updatedShow) }
+    }
+
+    @Test
+    fun `createTracklist redirects to the shows url`() {
+        val show = ShowEntity(id = 1, tracks = listOf())
+
+        every { showRepository.findById(1) } returns Optional.of(show)
+        every { showRepository.save(show) } returns show
+
+        this.mvc.perform(post("/shows/1/tracks"))
                 .andExpect(status().is3xxRedirection)
                 .andExpect(redirectedUrl("/shows/1"))
     }
