@@ -155,10 +155,6 @@ describe('Home page', function() {
         const thirdTrack = {artist: 'DJ Three', title: 'Nuts!', url: 'https://askepott.no'}
 
         addToTracklist(firstTrack)
-        cy.get('[data-test=artist-input]').should('have.value', '')
-        cy.get('[data-test=title-input]').should('have.value', '')
-        cy.get('[data-test=url-input]').should('have.value', '')
-
         addToTracklist(thirdTrack)
         addToTracklist(secondTrack)
         cy.get('[data-test=tracks]').eq(2).find('[data-test=move-up]').click()
