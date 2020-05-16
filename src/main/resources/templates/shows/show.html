@@ -29,10 +29,10 @@
     <br>
     <br>
     <br>
-    <div>
+    <div class="flex row">
     <h2>Tracklist</h2>
-    <button type="button" class="btn btn-outline-link" data-test="create-tracklist">
-        <a th:href="@{/shows/{id}/tracks/create(id=${showId})}">Create Tracklist</a>
+    <button type="button" class="btn btn-outline-secondary" data-test="manage-tracklist">
+        <a th:href="@{/shows/{id}/tracks/create(id=${showId})}">Manage tracklist</a>
     </button>
     </div>
     <table class="table table-striped">

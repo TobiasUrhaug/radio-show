@@ -3,8 +3,8 @@ function addTrack() {
   let artistCell = '<td><input name="tracks[' + rowNumber + '].artist" class="artist" type="text" value="" data-test="artist"/></td>'
   let titleCell = '<td><input name="tracks[' + rowNumber + '].title" class="title" type="text" value="" data-test="title"/></td>'
   let urlCell = '<td><input name="tracks[' + rowNumber + '].url" class="url" type="text" value="" data-test="url" /></td>'
-  let moveUpBtn = '<td><button type="button" data-test="move-up" class="move-up" class="btn btn-outline-secondary">Move Up</button></td>'
-  let moveDownBtn = '<td><button type="button" data-test="move-down" class="move-down" class="btn btn-outline-secondary">Move Down</button></td>'
+  let moveUpBtn = '<td><button type="button" data-test="move-up" class="move-up btn btn-outline-secondary">Move Up</button></td>'
+  let moveDownBtn = '<td><button type="button" data-test="move-down" class="move-down btn btn-outline-secondary">Move Down</button></td>'
 
   let row =
     '<tr id="tracks" data-test="tracks">'

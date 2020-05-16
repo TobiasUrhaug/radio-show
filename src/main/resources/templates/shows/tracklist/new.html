@@ -21,13 +21,21 @@
                 <th></th>
                 <th></th>
             </thead>
-            <tbody id="tracklist" data-test="tracklist"></tbody>
+            <tbody id="tracklist">
+                <tr th:each="track, lineStat: *{tracks}" data-test="tracks">
+                    <td><input type="text" th:field="*{tracks[__${lineStat.index}__].artist}" class="artist" data-test="artist"/></td>
+                    <td><input type="text" th:field="*{tracks[__${lineStat.index}__].title}" class="title" data-test="title"/></td>
+                    <td><input type="text" th:field="*{tracks[__${lineStat.index}__].url}" class="url" data-test="url"/></td>
+                    <td><button type="button" data-test="move-up" class="move-up btn btn-outline-secondary">Move Up</button></td>
+                    <td><button type="button" data-test="move-down" class="move-down btn btn-outline-secondary">Move Down</button></td>
+                </tr>
+            </tbody>
         </table>
         <button type="button" class="btn btn-outline-secondary" id="add-track" data-test="add-track" onclick="addTrack()" autofocus>Add</button>
         <br>
         <br>
         <br>
-        <input type="submit" onclick="return confirm('This will overwrite an already existing tracklist, do you want to continue?')" class="btn btn-secondary" data-test="submit" value="Add tracklist to show">
+        <input type="submit" class="btn btn-secondary" data-test="submit" value="Add tracklist to show">
     </form>
 </div>
 </body>

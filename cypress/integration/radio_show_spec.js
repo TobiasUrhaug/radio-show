@@ -129,10 +129,10 @@ describe('Home page', function() {
         cy.get('h1').should('contain.text', editCancelShow.name).and('contain.text', editCancelShow.date)
       })
 
-      it('Lets users add a tracklist', function() {
+      it('Lets users create a tracklist', function() {
         cy.add_show({name: 'Show with a track list', date: '2020-05-18'})
         cy.get('[data-test=show-details]').first().click()
-        cy.get('[data-test=create-tracklist]').click()
+        cy.get('[data-test=manage-tracklist]').click()
         cy.url().should('match', /shows\/[0-9]+\/tracks\/create/)
 
         const firstTrack = {artist: 'DJ Great Software', title: 'BDD or go home!', url: 'https://www.example.com'}
@@ -181,22 +181,40 @@ describe('Home page', function() {
 
       })
 
-      it('Lets users overwrite a tracklist', function() {
-        cy.add_show({name: 'Show with a overwritten track list', date: '2020-05-19'})
+      it('Lets users edit a tracklist', function() {
+        cy.add_show({name: 'Show with a edited track list', date: '2020-05-19'})
         cy.get('[data-test=show-details]').first().click()
-        cy.get('[data-test=create-tracklist]').click()
+        cy.get('[data-test=manage-tracklist]').click()
 
         const firstTrack = {artist: 'DJ Great Software', title: 'BDD or go home!', url: 'https://www.example.com'}
         addToTracklist(firstTrack)
         cy.get('[data-test=submit]').click()
 
-        cy.get('[data-test=create-tracklist]').click()
-        const secondTrack = {artist: 'DJ Second', title: 'Nature!', url: 'https://omtheorem.no'}
-        addToTracklist(secondTrack)
+        const secondTrack = {artist: 'DJ Edited', title: 'Name!', url: 'https://omtheorem.no'}
+        cy.get('[data-test=manage-tracklist]').click()
+        cy.get('[data-test=artist]')
+          .first()
+          .should('have.value', firstTrack.artist)
+          .clear()
+          .type(secondTrack.artist)
+        cy.get('[data-test=title]')
+          .first()
+          .should('have.value', firstTrack.title)
+          .clear()
+          .type(secondTrack.title)
+        cy.get('[data-test=url]')
+          .first()
+          .should('have.value', firstTrack.url)
+          .clear()
+          .type(secondTrack.url)
+
+        const thirdTrack = {artist: 'DJ Added', title: 'Title!', url: 'https://omtheorem.no'}
+        addToTracklist(thirdTrack)
         cy.get('[data-test=submit]').click()
 
         cy.get('[data-test=tracklist').then(tracks => {
           assertRowContainsTrack(tracks[0], secondTrack)
+          assertRowContainsTrack(tracks[1], thirdTrack)
         })
       })
 

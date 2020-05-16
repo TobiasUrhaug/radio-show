@@ -4,6 +4,7 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.verify
 import no.omtheorem.radio.tracks.TrackEntity
+import no.omtheorem.radio.tracks.TrackForm
 import no.omtheorem.radio.tracks.TrackRepository
 import no.omtheorem.radio.tracks.TracklistForm
 import org.junit.jupiter.api.Test
@@ -168,11 +169,29 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `showCreateTracklistForm renders form without any tracks`() {
+    fun `showTracklistForm renders form with already existing tracks`() {
+        val show = ShowEntity(id = 1, tracks = emptyList())
+        every { showRepository.findById(1) } returns Optional.of(show)
+
         this.mvc.perform(get("/shows/1/tracks/create"))
                 .andExpect(status().isOk)
                 .andExpect(view().name("shows/tracklist/new"))
                 .andExpect(model().attribute("tracklist", TracklistForm(arrayListOf())))
+                .andExpect(model().attribute("showId", 1L))
+
+        val trackA = TrackEntity("Artist A", "Track number two", url = "url A")
+        val trackB = TrackEntity("Artist B", "Track number three", url = "url B")
+        show.tracks = listOf(trackA, trackB)
+
+        val tracklist = TracklistForm(listOf(
+            TrackForm(trackA.artist, trackA.name, trackA.url),
+            TrackForm(trackB.artist, trackB.name, trackB.url)
+        ))
+
+        this.mvc.perform(get("/shows/1/tracks/create"))
+                .andExpect(status().isOk)
+                .andExpect(view().name("shows/tracklist/new"))
+                .andExpect(model().attribute("tracklist", tracklist))
                 .andExpect(model().attribute("showId", 1L))
     }
 
@@ -198,31 +217,6 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
                 .param("tracks[1].url", addedTrackB.url)
         )
 
-        verify { showRepository.save(updatedShow) }
-    }
-
-    @Test
-    fun `createTracklist overwrites existing tracklist and deletes old tracks`() {
-        val alreadyExistingTrackA = TrackEntity("Existing Artist A", "Track!!", url = "www.example.com")
-        val alreadyExistingTrackB = TrackEntity("Existing Artist B", "Track!!", url = "www.example.com")
-        val alreadyExistingTracks = listOf(alreadyExistingTrackA, alreadyExistingTrackB)
-        val show = ShowEntity(id = 1, tracks = alreadyExistingTracks)
-
-        every { showRepository.findById(1) } returns Optional.of(show)
-
-        val updatedShow = show.copy()
-        val newTrack = TrackEntity("Added Artist A", "Track number two", url = "url A")
-        updatedShow.tracks = listOf(newTrack)
-
-        every { showRepository.save(updatedShow) } returns updatedShow
-
-        this.mvc.perform(post("/shows/1/tracks")
-                .param("tracks[0].artist", newTrack.artist)
-                .param("tracks[0].title", newTrack.name)
-                .param("tracks[0].url", newTrack.url)
-        )
-
-        verify { trackRepository.deleteAll(alreadyExistingTracks.toMutableList().asIterable()) }
         verify { showRepository.save(updatedShow) }
     }
 

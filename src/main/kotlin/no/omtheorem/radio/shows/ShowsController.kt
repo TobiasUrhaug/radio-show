@@ -72,8 +72,10 @@ class ShowsController (){
     }
 
     @GetMapping("/shows/{showId}/tracks/create")
-    fun showCreateTracklistForm(@PathVariable showId: Long, model: Model): String {
-        model.addAttribute("tracklist", TracklistForm(arrayListOf<TrackForm>()))
+    fun showTracklistForm(@PathVariable showId: Long, model: Model): String {
+        val show = showRepository.findById(showId).get()
+        val tracks = show.tracks.map { TrackForm(it.artist, it.name, it.url) }
+        model.addAttribute("tracklist", TracklistForm(tracks))
         model.addAttribute("showId", showId)
         return "shows/tracklist/new"
     }
@@ -84,7 +86,7 @@ class ShowsController (){
         trackRepository.deleteAll(show.tracks)
         show.tracks = tracklistForm.tracks
                 .filter { !it.isEmpty() }
-                .map { it -> TrackEntity(it.artist, it.title, url = it.url) }
+                .map { TrackEntity(it.artist, it.title, url = it.url) }
         showRepository.save(show)
         return "redirect:/shows/$showId"
     }
