@@ -220,6 +220,30 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
+    fun `createTracklist omits empty tracks`() {
+        val show = ShowEntity(id = 1, tracks = emptyList())
+
+        every { showRepository.findById(1) } returns Optional.of(show)
+
+        val updatedShow = show.copy()
+        val newTrack = TrackEntity("Added Artist A", "Track number two", url = "url A")
+        updatedShow.tracks = listOf(newTrack)
+
+        every { showRepository.save(updatedShow) } returns updatedShow
+
+        this.mvc.perform(post("/shows/1/tracks")
+                .param("tracks[0].artist", "")
+                .param("tracks[0].title", "")
+                .param("tracks[0].url", "")
+                .param("tracks[1].artist", newTrack.artist)
+                .param("tracks[1].title", newTrack.name)
+                .param("tracks[1].url", newTrack.url)
+        )
+
+        verify { showRepository.save(updatedShow) }
+    }
+
+    @Test
     fun `createTracklist redirects to the shows url`() {
         val show = ShowEntity(id = 1, tracks = listOf())
 

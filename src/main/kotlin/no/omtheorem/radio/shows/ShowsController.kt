@@ -78,7 +78,9 @@ class ShowsController (){
     @PostMapping("/shows/{showId}/tracks")
     fun createTracklist(@PathVariable showId: Long, @ModelAttribute(value = "tracks") tracklistForm: TracklistForm): String {
         val show = showRepository.findById(showId).get()
-        show.tracks = tracklistForm.tracks.map { it -> TrackEntity(it.artist, it.title, url = it.url) }
+        show.tracks = tracklistForm.tracks
+                .filter { !it.isEmpty() }
+                .map { it -> TrackEntity(it.artist, it.title, url = it.url) }
         showRepository.save(show)
         return "redirect:/shows/$showId"
     }

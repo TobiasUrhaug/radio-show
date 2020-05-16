@@ -146,6 +146,9 @@ describe('Home page', function() {
         cy.get('[data-test=tracks]').eq(1).find('[data-test=move-up]').click()
         cy.get('[data-test=tracks]').eq(0).find('[data-test=move-down]').click()
 
+        // An empty track should get ignored
+        cy.get('[data-test=add-track]').click()
+
         // This should not do anything
         cy.get('[data-test=tracks]').first().find('[data-test=move-up]').click()
         cy.get('[data-test=tracks]').last().find('[data-test=move-down]').click()
@@ -169,7 +172,8 @@ describe('Home page', function() {
         cy.get('[data-test=submit]').click()
         cy.url().should('match', /shows\/[0-9]+/)
 
-        cy.get('[data-test=tracklist').then(tracks => {
+        cy.get('[data-test=tracklist]').should('have.length', 3)
+        cy.get('[data-test=tracklist]').then(tracks => {
           assertRowContainsTrack(tracks[0], firstTrack)
           assertRowContainsTrack(tracks[1], secondTrack)
           assertRowContainsTrack(tracks[2], thirdTrack)
