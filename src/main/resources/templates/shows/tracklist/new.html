@@ -13,7 +13,6 @@
             th:object="${tracklist}"
             method="post"
     >
-        <fieldset>
         <table class="table">
             <thead class="thead-dark">
                 <th>Artist</th>
@@ -22,24 +21,9 @@
                 <th></th>
                 <th></th>
             </thead>
-            <tbody id="tracklist" data-test="tracklist">
-                <tr id="inputs">
-                    <td>
-                        <input type="text" id="artist-input" data-test="artist-input" autofocus/>
-                    </td>
-                    <td>
-                        <input type="text" id="title-input" data-test="title-input"/>
-                    </td>
-                    <td>
-                        <input type="text" id="url-input" data-test="url-input"/>
-                    </td>
-                    <td colspan="2">
-                        <button type="button" class="btn btn-outline-secondary" id="add-track" data-test="add-track" onclick="addTrack()">Add</button>
-                    </td>
-                </tr>
-            </tbody>
+            <tbody id="tracklist" data-test="tracklist"></tbody>
         </table>
-        </fieldset>
+        <button type="button" class="btn btn-outline-secondary" id="add-track" data-test="add-track" onclick="addTrack()" autofocus>Add</button>
         <br>
         <br>
         <br>

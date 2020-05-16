@@ -113,21 +113,6 @@ describe('Home page', function() {
           .should('contain', editedShow.name)
           .and('contain', editedShow.date)
 
-        // Tests that the tracklist of a show is preserved after edit
-        cy.get('[data-test=show-details]').first().click()
-        cy.get('[data-test=create-tracklist]').click()
-
-        cy.get('[data-test=artist-input]').type('Artist')
-        cy.get('[data-test=title-input').type('Title')
-        cy.get('[data-test=add-track]').click()
-        cy.get('[data-test=submit]').click()
-
-        cy.get('[data-test=edit]').first().click()
-        cy.get('[data-test=submit]').click()
-
-        cy.get('[data-test=artist]').first().should('contain.text', 'Artist')
-        cy.get('[data-test=title]').first().should('contain.text', 'Title')
-
         // Test cancel of edit
         const editCancelShow = {name: 'Edit was cancelled', date: '2020-04-23'}
         cy.add_show(editCancelShow)
@@ -224,9 +209,9 @@ function assertRowContainsTrack(row, track) {
 }
 
 function addToTracklist(track) {
-  cy.get('[data-test=artist-input]').type(track.artist)
-  cy.get('[data-test=title-input').type(track.title)
-  cy.get('[data-test=url-input]').type(track.url)
   cy.get('[data-test=add-track]').click()
+  cy.get('[data-test=artist]').last().type(track.artist)
+  cy.get('[data-test=title').last().type(track.title)
+  cy.get('[data-test=url]').last().type(track.url)
 }
 
