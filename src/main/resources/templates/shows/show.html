@@ -6,7 +6,26 @@
 <body>
 <div th:insert="fragments/layout :: navbar"/>
 <div class="container" th:object="${show}">
-    <h1 th:text="${show.name + ' (' + show.date + ')'}"></h1>
+    <div class="flex row">
+
+    <h1 th:text="${show.name + ' ' + show.date}"></h1>
+    <div class="btn btn-group">
+        <form
+                action="#"
+                th:action="@{/shows/{id}/update(id=${showId})}"
+                method="get"
+        >
+            <button type="submit" class="btn btn-outline-secondary" data-test="edit">Edit</button>
+        </form>
+        <form
+                action="#"
+                th:action="@{/shows/delete/{id}(id=${showId})}"
+                method="get"
+        >
+            <button type="submit" class="btn btn-outline-secondary" data-test="delete">Delete</button>
+        </form>
+    </div>
+    </div>
     <br>
     <br>
     <br>
@@ -33,22 +52,6 @@
     <br>
     <br>
     <br>
-    <div class="btn-group">
-        <form
-                action="#"
-                th:action="@{/shows/{id}/update(id=${showId})}"
-                method="get"
-        >
-            <button type="submit" data-test="edit">Edit</button>
-        </form>
-        <form
-                action="#"
-                th:action="@{/shows/delete/{id}(id=${showId})}"
-                method="get"
-        >
-            <button type="submit" data-test="delete">Delete</button>
-        </form>
-    </div>
 </div>
 </body>
 </html>
