@@ -4,6 +4,7 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import io.mockk.verify
 import no.omtheorem.radio.tracks.TrackEntity
+import no.omtheorem.radio.tracks.TrackRepository
 import no.omtheorem.radio.tracks.TracklistForm
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,6 +21,9 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
     @MockkBean(relaxUnitFun = true)
     private lateinit var showRepository: ShowRepository
+
+    @MockkBean(relaxUnitFun = true)
+    private lateinit var trackRepository: TrackRepository
 
     @Test
     fun `showCreateShowForm renders form`() {
@@ -198,9 +202,11 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `createTracklist creating a tracklist overwrites an already existing one`() {
-        val alreadyExistingTrack = TrackEntity("Existing Artist", "Track!!", url = "www.example.com")
-        val show = ShowEntity(id = 1, tracks = listOf(alreadyExistingTrack))
+    fun `createTracklist overwrites existing tracklist and deletes old tracks`() {
+        val alreadyExistingTrackA = TrackEntity("Existing Artist A", "Track!!", url = "www.example.com")
+        val alreadyExistingTrackB = TrackEntity("Existing Artist B", "Track!!", url = "www.example.com")
+        val alreadyExistingTracks = listOf(alreadyExistingTrackA, alreadyExistingTrackB)
+        val show = ShowEntity(id = 1, tracks = alreadyExistingTracks)
 
         every { showRepository.findById(1) } returns Optional.of(show)
 
@@ -216,6 +222,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
                 .param("tracks[0].url", newTrack.url)
         )
 
+        verify { trackRepository.deleteAll(alreadyExistingTracks.toMutableList().asIterable()) }
         verify { showRepository.save(updatedShow) }
     }
 

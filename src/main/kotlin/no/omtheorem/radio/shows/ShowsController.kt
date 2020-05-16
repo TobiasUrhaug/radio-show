@@ -2,6 +2,7 @@ package no.omtheorem.radio.shows
 
 import no.omtheorem.radio.tracks.TrackEntity
 import no.omtheorem.radio.tracks.TrackForm
+import no.omtheorem.radio.tracks.TrackRepository
 import no.omtheorem.radio.tracks.TracklistForm
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
@@ -15,6 +16,8 @@ class ShowsController (){
 
     @Autowired
     private lateinit var showRepository: ShowRepository
+    @Autowired
+    private lateinit var trackRepository: TrackRepository
 
     @GetMapping("/shows/create")
     fun showCreateShowForm(model: Model): String {
@@ -78,6 +81,7 @@ class ShowsController (){
     @PostMapping("/shows/{showId}/tracks")
     fun createTracklist(@PathVariable showId: Long, @ModelAttribute(value = "tracks") tracklistForm: TracklistForm): String {
         val show = showRepository.findById(showId).get()
+        trackRepository.deleteAll(show.tracks)
         show.tracks = tracklistForm.tracks
                 .filter { !it.isEmpty() }
                 .map { it -> TrackEntity(it.artist, it.title, url = it.url) }
