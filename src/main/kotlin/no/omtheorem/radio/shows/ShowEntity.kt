@@ -8,9 +8,9 @@ import javax.persistence.*
 @Entity
 @Table(name = "shows")
 data class ShowEntity (
-        val name: String = "",
+        var name: String = "",
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val date: LocalDate = LocalDate.of(1970, 1, 1),
+        var date: LocalDate = LocalDate.of(1970, 1, 1),
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = -1,

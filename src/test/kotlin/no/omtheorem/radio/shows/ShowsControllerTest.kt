@@ -130,16 +130,24 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         )
 
         every { showRepository.findById(1) } returns Optional.of(showEntity)
-        every { showRepository.save(showEntity) } returns showEntity
+
+        val updatedShow = ShowEntity(
+                "new Name",
+                LocalDate.of(2020, 4, 24),
+                showEntity.id,
+                showEntity.tracks
+        )
+
+        every { showRepository.save(updatedShow) } returns updatedShow
 
         this.mvc.perform(post("/shows/1/update")
-                .param("name", showEntity.name)
-                .param("date", showEntity.date.toString())
+                .param("name", updatedShow.name)
+                .param("date", updatedShow.date.toString())
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(redirectedUrl("/shows/1"))
 
-        verify { showRepository.save(showEntity) }
+        verify { showRepository.save(updatedShow) }
     }
 
     @Test

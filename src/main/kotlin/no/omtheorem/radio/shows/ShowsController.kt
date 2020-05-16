@@ -54,7 +54,9 @@ class ShowsController (){
     @PostMapping("/shows/{showId}/update")
     fun updateShow(@PathVariable showId: Long, @ModelAttribute showForm: ShowForm): String {
         val existingShow = showRepository.findById(showId).get()
-        showRepository.save(ShowEntity(showForm.name, showForm.localDate(), showId, existingShow.tracks))
+        existingShow.name = showForm.name
+        existingShow.date = showForm.localDate()
+        showRepository.save(existingShow)
         return "redirect:/shows/$showId"
     }
 
