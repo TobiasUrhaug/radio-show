@@ -186,42 +186,52 @@ describe('Home page', function() {
         cy.get('[data-test=show-details]').first().click()
         cy.get('[data-test=manage-tracklist]').click()
 
-        const firstTrack = {artist: 'DJ Great Software', title: 'BDD or go home!', url: 'https://www.example.com'}
-        addToTracklist(firstTrack)
+        const trackToBeDeleted = {artist: 'DJ Great Software', title: 'BDD or go home!', url: 'https://www.example.com'}
+        const trackToBeEdited = {artist: 'DJ One', title: 'Bass Music!', url: 'https://www.example.com'}
+        addToTracklist(trackToBeDeleted)
+        addToTracklist(trackToBeEdited)
         cy.get('[data-test=submit]').click()
 
-        const secondTrack = {artist: 'DJ Edited', title: 'Name!', url: 'https://omtheorem.no'}
+        const editedTrack = {artist: 'DJ Edited', title: 'Name!', url: 'https://omtheorem.no'}
         cy.get('[data-test=manage-tracklist]').click()
-        cy.get('[data-test=artist]')
-          .first()
-          .should('have.value', firstTrack.artist)
-          .clear()
-          .type(secondTrack.artist)
-        cy.get('[data-test=title]')
-          .first()
-          .should('have.value', firstTrack.title)
-          .clear()
-          .type(secondTrack.title)
-        cy.get('[data-test=url]')
-          .first()
-          .should('have.value', firstTrack.url)
-          .clear()
-          .type(secondTrack.url)
 
-        const thirdTrack = {artist: 'DJ Added', title: 'Title!', url: 'https://omtheorem.no'}
-        addToTracklist(thirdTrack)
+        cy.get('[data-test=artist]')
+          .last()
+          .should('have.value', trackToBeEdited.artist)
+          .clear()
+          .type(editedTrack.artist)
+        cy.get('[data-test=title]')
+          .last()
+          .should('have.value', trackToBeEdited.title)
+          .clear()
+          .type(editedTrack.title)
+        cy.get('[data-test=url]')
+          .last()
+          .should('have.value', trackToBeEdited.url)
+          .clear()
+          .type(editedTrack.url)
+
+        const newlyAddedTrack = {artist: 'DJ Added', title: 'Title!', url: 'https://omtheorem.no'}
+        addToTracklist(newlyAddedTrack)
+        const trackAddedAndDeleted = {artist: 'DJ Added 2', title: 'Title 2!', url: 'https://omtheorem.no/track4'}
+        addToTracklist(trackAddedAndDeleted)
+        cy.get('[data-test=tracks]').first().within(($track) => {
+            cy.get('[data-test=delete-track]').click()
+        })
+        cy.get('[data-test=tracks]').last().within(($track) => {
+            cy.get('[data-test=delete-track]').click()
+        })
         cy.get('[data-test=submit]').click()
 
+        cy.get('[data-test=tracklist')
+          .should('have.length', 2)
         cy.get('[data-test=tracklist').then(tracks => {
-          assertRowContainsTrack(tracks[0], secondTrack)
-          assertRowContainsTrack(tracks[1], thirdTrack)
+          assertRowContainsTrack(tracks[0], editedTrack)
+          assertRowContainsTrack(tracks[1], newlyAddedTrack)
         })
       })
-
     })
-
   })
-
 })
 
 function assertRowContainsTrack(row, track) {

@@ -5,6 +5,7 @@ function addTrack() {
   let urlCell = '<td><input name="tracks[' + rowNumber + '].url" class="url" type="text" value="" data-test="url" /></td>'
   let moveUpBtn = '<td><button type="button" data-test="move-up" class="move-up btn btn-outline-secondary">Move Up</button></td>'
   let moveDownBtn = '<td><button type="button" data-test="move-down" class="move-down btn btn-outline-secondary">Move Down</button></td>'
+  let deleteBtn = '<td><button type="button" data-test="delete-track" class="delete btn btn-outline-secondary">Delete</button></td>'
 
   let row =
     '<tr id="tracks" data-test="tracks">'
@@ -13,6 +14,7 @@ function addTrack() {
     + urlCell
     + moveUpBtn
     + moveDownBtn
+    + deleteBtn
     + '</tr>';
   $('#tracklist').append(row);
   $('.artist').last().focus();
@@ -30,6 +32,9 @@ $(function(){
     if (row.index() < $('#tracklist tr').length - 1) {
       swapRows(row, row.next());
     }
+  })
+  $('#tracklist').on('click', '.delete', function(e) {
+    $(this).closest('tr').remove();
   })
   $('#tracklist').on('keypress', function(e) {
     if (e.keyCode === 13) {
