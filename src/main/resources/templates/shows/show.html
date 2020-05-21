@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en", xmlns:th="https://www.thymeleaf.org">
+<html lang="en" , xmlns:th="https://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/layout :: head"></div>
 </head>
@@ -8,50 +8,47 @@
 <div class="container" th:object="${show}">
     <div class="flex row">
 
-    <h1 th:text="${show.name + ' ' + show.date}"></h1>
-    <div class="btn btn-group">
-        <form
-                action="#"
-                th:action="@{/shows/{id}/update(id=${showId})}"
-                method="get"
-        >
-            <button type="submit" class="btn btn-outline-secondary" data-test="edit">Edit</button>
-        </form>
-        <form
-                action="#"
-                th:action="@{/shows/delete/{id}(id=${showId})}"
-                method="get"
-        >
-            <button type="submit" class="btn btn-outline-secondary" data-test="delete">Delete</button>
-        </form>
+        <h1 th:text="${show.name + ' ' + show.date}"></h1>
+        <div class="btn btn-group">
+            <form
+                    action="#"
+                    th:action="@{/shows/{id}/update(id=${showId})}"
+                    method="get"
+            >
+                <button type="submit" class="btn btn-outline-secondary" data-test="edit">Edit</button>
+            </form>
+            <form
+                    action="#"
+                    th:action="@{/shows/delete/{id}(id=${showId})}"
+                    method="get"
+            >
+                <button type="submit" class="btn btn-outline-secondary" data-test="delete">Delete</button>
+            </form>
+        </div>
     </div>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <div class="flex row justify-content-between">
+            <h2>Tracklist</h2>
+            <button type="button" class="btn btn-outline-secondary" data-test="manage-tracklist">
+                <a th:href="@{/shows/{id}/tracks/create(id=${showId})}">Manage tracklist</a>
+            </button>
+        </div>
+        <ul class="list-group">
+            <li th:each="track: ${show.tracks}" class="list-group-item" data-test="tracklist">
+                <a th:href="${track.url}">
+                    <span th:text="${track.artist}" data-test="artist"></span>
+                    -
+                    <span th:text="${track.title}" data-test="title"></span>
+                </a>
+            </li>
+        </ul>
+        <br>
+        <br>
+        <br>
     </div>
-    <br>
-    <br>
-    <br>
-    <div class="flex row">
-    <h2>Tracklist</h2>
-    <button type="button" class="btn btn-outline-secondary" data-test="manage-tracklist">
-        <a th:href="@{/shows/{id}/tracks/create(id=${showId})}">Manage tracklist</a>
-    </button>
-    </div>
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <th>Artist</th>
-            <th>Title</th>
-            <th>URL</th>
-        </thead>
-        <tbody>
-            <tr th:each="track: ${show.tracks}" data-test="tracklist">
-                <td th:text="${track.artist}" data-test="artist"></td>
-                <td th:text="${track.title}" data-test="title"></td>
-                <td th:text="${track.url}" data-test="url"></td>
-            </tr>
-        </tbody>
-    </table>
-    <br>
-    <br>
-    <br>
 </div>
 </body>
 </html>

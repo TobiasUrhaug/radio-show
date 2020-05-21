@@ -173,7 +173,7 @@ describe('Home page', function() {
         cy.url().should('match', /shows\/[0-9]+/)
 
         cy.get('[data-test=tracklist]').should('have.length', 3)
-        cy.get('[data-test=tracklist]').then(tracks => {
+        cy.get('[data-test=tracklist] > a').then(tracks => {
           assertRowContainsTrack(tracks[0], firstTrack)
           assertRowContainsTrack(tracks[1], secondTrack)
           assertRowContainsTrack(tracks[2], thirdTrack)
@@ -223,9 +223,9 @@ describe('Home page', function() {
         })
         cy.get('[data-test=submit]').click()
 
-        cy.get('[data-test=tracklist')
+        cy.get('[data-test=tracklist]')
           .should('have.length', 2)
-        cy.get('[data-test=tracklist').then(tracks => {
+        cy.get('[data-test=tracklist] > a').then(tracks => {
           assertRowContainsTrack(tracks[0], editedTrack)
           assertRowContainsTrack(tracks[1], newlyAddedTrack)
         })
@@ -237,7 +237,7 @@ describe('Home page', function() {
 function assertRowContainsTrack(row, track) {
   expect(row).to.contain(track.artist)
   expect(row).to.contain(track.title)
-  expect(row).to.contain(track.url)
+  expect(row).to.have.attr('href', track.url)
 }
 
 function addToTracklist(track) {
