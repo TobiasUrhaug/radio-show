@@ -72,12 +72,12 @@ class ShowsController (){
     }
 
     @GetMapping("/shows/{showId}/tracks/create")
-    fun showTracklistForm(@PathVariable showId: Long, model: Model): String {
+    fun showManageTracklistForm(@PathVariable showId: Long, model: Model): String {
         val show = showRepository.findById(showId).get()
         val tracks = show.tracks.map { TrackForm(it.artist, it.name, it.url) }
         model.addAttribute("tracklist", TracklistForm(tracks))
         model.addAttribute("showId", showId)
-        return "shows/tracklist/new"
+        return "shows/tracklist/manage-tracklist"
     }
 
     @PostMapping("/shows/{showId}/tracks")

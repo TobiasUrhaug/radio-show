@@ -169,13 +169,13 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `showTracklistForm renders form with already existing tracks`() {
+    fun `showManageTracklistForm renders form with already existing tracks`() {
         val show = ShowEntity(id = 1, tracks = emptyList())
         every { showRepository.findById(1) } returns Optional.of(show)
 
         this.mvc.perform(get("/shows/1/tracks/create"))
                 .andExpect(status().isOk)
-                .andExpect(view().name("shows/tracklist/new"))
+                .andExpect(view().name("shows/tracklist/manage-tracklist"))
                 .andExpect(model().attribute("tracklist", TracklistForm(arrayListOf())))
                 .andExpect(model().attribute("showId", 1L))
 
@@ -190,7 +190,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
         this.mvc.perform(get("/shows/1/tracks/create"))
                 .andExpect(status().isOk)
-                .andExpect(view().name("shows/tracklist/new"))
+                .andExpect(view().name("shows/tracklist/manage-tracklist"))
                 .andExpect(model().attribute("tracklist", tracklist))
                 .andExpect(model().attribute("showId", 1L))
     }
