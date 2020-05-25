@@ -7,7 +7,6 @@
 <div th:insert="fragments/layout :: navbar"/>
 <div class="container" th:object="${show}">
     <div class="flex row">
-
         <h1 th:text="${show.name + ' ' + show.date}"></h1>
         <div class="btn btn-group">
             <form
@@ -32,9 +31,13 @@
     <div class="container">
         <div class="flex row justify-content-between">
             <h2>Tracklist</h2>
-            <button type="button" class="btn btn-outline-secondary" data-test="manage-tracklist">
-                <a th:href="@{/shows/{id}/tracks/create(id=${showId})}">Manage tracklist</a>
-            </button>
+            <form
+                    action="#"
+                    th:action="@{/shows/{id}/tracks/create (id=${showId})}"
+                    method="get"
+            >
+                <button type="submit" class="btn btn-outline-secondary" data-test="manage-tracklist">Manage tracklist</button>
+            </form>
         </div>
         <ul class="list-group">
             <li th:each="track: ${show.tracks}" class="list-group-item" data-test="tracklist">
