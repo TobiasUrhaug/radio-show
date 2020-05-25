@@ -179,6 +179,13 @@ describe('Home page', function() {
           assertRowContainsTrack(tracks[2], thirdTrack)
         })
 
+        // Let users cancel while managing tracklist
+        cy.get('[data-test=manage-tracklist]').click()
+        const toBeCanceled = {artist: 'DJ Cancel', title: 'Does not persist!', url: 'https://cancel.no'}
+        addToTracklist(toBeCanceled)
+        cy.get('[data-test=cancel]').click()
+        cy.url().should('match', /shows\/[0-9]+/)
+        cy.get('[data-test=tracklist]').should('have.length', 3)
       })
 
       it('Lets users edit a tracklist', function() {

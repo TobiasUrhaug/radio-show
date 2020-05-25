@@ -38,6 +38,9 @@
         <br>
         <br>
         <input type="submit" class="btn btn-secondary" data-test="submit" value="Add tracklist to show">
+        <button type="button" class="btn btn-link" data-test="cancel">
+            <a th:href="@{/shows/{id} (id=${showId})}">Cancel</a>
+        </button>
     </form>
 </div>
 </body>
