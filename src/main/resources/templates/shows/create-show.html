@@ -6,33 +6,45 @@
 <body>
 <div th:insert="fragments/layout :: navbar"></div>
 <div class="container">
-
-    <h1>Add a new Show</h1>
+    <h1>Fill in show details</h1>
     <form
             action="#"
             th:action="@{/shows/create}"
             th:object="${show}"
             method="post"
     >
-        <div th:fragment="show-fields">
-            <label>Name:</label>
-            <input
-                    type="text"
-                    th:field="*{name}"
-                    data-test="name-input"
-            />
+        <div class="col-lg-6 col-md-9" th:fragment="show-fields">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="name-label">Name</span>
+                </div>
+                <input
+                        type="text"
+                        id="name-input"
+                        class="form-control"
+                        placeholder="show name"
+                        th:field="*{name}"
+                        data-test="name-input"
+                />
+            </div>
             <label
                     th:if="${#fields.hasErrors('name')}"
                     th:errors="*{name}"
                     data-test="name-error">
             </label>
             <br>
-            <label>Date:</label>
-            <input
-                    type="date"
-                    th:field="*{date}"
-                    data-test="date-input"
-            />
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="date-label">Date</span>
+                </div>
+                <input
+                        type="date"
+                        id="date-input"
+                        class="form-control"
+                        th:field="*{date}"
+                        data-test="date-input"
+                />
+            </div>
             <label
                     th:if="${#fields.hasErrors('date')}"
                     th:errors="*{date}"
@@ -42,8 +54,8 @@
         </div>
         <br>
         <br>
-        <input type="submit" data-test="submit" value="Add Show"/>
-        <button type="button" data-test="cancel">
+        <input type="submit" class="btn btn-secondary" data-test="submit" value="Create Show"/>
+        <button type="button" class="btn btn-link" data-test="cancel">
             <a th:href="@{/}">Cancel</a>
         </button>
     </form>
