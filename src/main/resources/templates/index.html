@@ -7,10 +7,13 @@
 <div th:insert="fragments/layout :: navbar"></div>
 <div class="container">
     <h1>Welcome to this radio content manager!</h1>
-    <h2>Radio shows</h2>
-    <button type="button" data-test="create-show">
-        <a href="/shows/create">Create new show</a>
-    </button>
+
+    <div class="flex row justify-content-between no-gutters">
+        <h2>Radio shows</h2>
+        <form action="#" th:action="@{/shows/create}" method="get">
+            <button type="submit" class="btn btn-outline-secondary" data-test="create-show">Create new show</button>
+        </form>
+    </div>
     <table data-test="shows" class="table table-striped">
         <thead class="thead-dark">
         <th>Date</th>
