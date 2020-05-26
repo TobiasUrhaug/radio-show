@@ -30,7 +30,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     fun `showCreateShowForm renders form`() {
         this.mvc.perform(get("/shows/create"))
                 .andExpect(status().isOk)
-                .andExpect(view().name("shows/create"))
+                .andExpect(view().name("shows/create-show"))
     }
 
     @Test
@@ -46,6 +46,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
         verify (exactly = 1) { showRepository.save(show) }
     }
+
     @Test
     fun `createShow redirects to root`() {
         val show = ShowEntity("Show Name", LocalDate.of(2020, 4, 12))
@@ -69,7 +70,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
                 .param("date", showForm.date)
         )
                 .andExpect(status().isOk)
-                .andExpect(view().name("shows/create"))
+                .andExpect(view().name("shows/create-show"))
                 .andExpect(model().attribute("show", showForm))
     }
 
@@ -82,7 +83,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
                 .param("date", showForm.date)
         )
                 .andExpect(status().isOk)
-                .andExpect(view().name("shows/create"))
+                .andExpect(view().name("shows/create-show"))
                 .andExpect(model().attribute("show", showForm))
     }
 

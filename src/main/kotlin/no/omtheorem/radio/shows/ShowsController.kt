@@ -22,13 +22,13 @@ class ShowsController (){
     @GetMapping("/shows/create")
     fun showCreateShowForm(model: Model): String {
         model.addAttribute("show", ShowForm())
-        return "shows/create"
+        return "shows/create-show"
     }
 
     @PostMapping("/shows/create")
     fun createShow(@Valid @ModelAttribute("show") showForm: ShowForm, bindingResult: BindingResult, model: Model): String {
         if (bindingResult.hasErrors()) {
-            return "shows/create"
+            return "shows/create-show"
         }
         showRepository.save(ShowEntity(showForm.name, showForm.localDate()))
         return "redirect:/"
