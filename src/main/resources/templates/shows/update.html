@@ -6,7 +6,7 @@
 <body>
 <div th:insert="fragments/layout :: navbar"></div>
 <div class="container">
-    <h1>Edit Radio Show</h1>
+    <h1>Edit</h1>
     <form
             action="#"
             th:action="@{/shows/{id}/update(id=${showId})}"
@@ -16,8 +16,8 @@
         <div th:insert="shows/create-show :: show-fields"></div>
         <br/>
         <br/>
-        <input type="submit" data-test="submit" value="Submit changes"/>
-        <button type="button" data-test="cancel">
+        <input type="submit" class="btn btn-secondary" data-test="submit" value="Submit changes"/>
+        <button type="button" class="btn btn-link" data-test="cancel">
             <a th:href="@{/shows/{id}(id=${showId})}">Cancel</a>
         </button>
     </form>
