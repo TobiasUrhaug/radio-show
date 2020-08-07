@@ -45,6 +45,8 @@
                     <span th:text="${track.artist}" data-test="artist"></span>
                     -
                     <span th:text="${track.title}" data-test="title"></span>
+                    <span th:if="${track.remix != ''}" th:text="${'(' + track.remix +')'}" data-test="remix"></span>
+                    <span th:if="${track.label != ''}" th:text="${'[' + track.label + ']'}" data-test="label"></span>
                 </a>
             </li>
         </ul>

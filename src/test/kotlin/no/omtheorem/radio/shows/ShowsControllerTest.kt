@@ -179,16 +179,28 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         this.mvc.perform(get("/shows/1/tracks/create"))
                 .andExpect(status().isOk)
                 .andExpect(view().name("shows/tracklist/manage-tracklist"))
-                .andExpect(model().attribute("tracklist", TracklistForm(arrayListOf())))
+                .andExpect(model().attribute("tracklist", TracklistForm(emptyList())))
                 .andExpect(model().attribute("showId", 1L))
 
-        val trackA = TrackEntity("Artist A", "Track number two", url = "url A")
-        val trackB = TrackEntity("Artist B", "Track number three", url = "url B")
+        val trackA = TrackEntity(
+                "Artist A",
+                "Track A",
+                url = "url A",
+                remix = "remix A",
+                label = "label A"
+        )
+        val trackB = TrackEntity(
+                "Artist B",
+                "Track B",
+                url = "url B",
+                remix = "remix B",
+                label = "label B"
+        )
         show.tracks = listOf(trackA, trackB)
 
         val tracklist = TracklistForm(listOf(
-            TrackForm(trackA.artist, trackA.name, trackA.url),
-            TrackForm(trackB.artist, trackB.name, trackB.url)
+            TrackForm(trackA.artist, trackA.name, trackA.url, trackA.remix, trackA.label),
+            TrackForm(trackB.artist, trackB.name, trackB.url, trackB.remix, trackB.label)
         ))
 
         this.mvc.perform(get("/shows/1/tracks/create"))
@@ -205,8 +217,20 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         every { showRepository.findById(1) } returns Optional.of(show)
 
         val updatedShow = show.copy()
-        val addedTrackA = TrackEntity("Added Artist A", "Track number two", url = "url A")
-        val addedTrackB = TrackEntity("Added Artist B", "Track number three", url = "url B")
+        val addedTrackA = TrackEntity(
+                "Added Artist A",
+                "Track number two",
+                url = "url A",
+                remix = "Rmx A",
+                label = "Label A"
+        )
+        val addedTrackB = TrackEntity(
+                "Added Artist B",
+                "Track number three",
+                url = "url B",
+                remix = "Rmx B",
+                label = "Label B"
+        )
         updatedShow.tracks = listOf(addedTrackA, addedTrackB)
 
         every { showRepository.save(updatedShow) } returns updatedShow
@@ -215,9 +239,13 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
                 .param("tracks[0].artist", addedTrackA.artist)
                 .param("tracks[0].title", addedTrackA.name)
                 .param("tracks[0].url", addedTrackA.url)
+                .param("tracks[0].remix", addedTrackA.remix)
+                .param("tracks[0].label", addedTrackA.label)
                 .param("tracks[1].artist", addedTrackB.artist)
                 .param("tracks[1].title", addedTrackB.name)
                 .param("tracks[1].url", addedTrackB.url)
+                .param("tracks[1].remix", addedTrackB.remix)
+                .param("tracks[1].label", addedTrackB.label)
         )
 
         verify { showRepository.save(updatedShow) }

@@ -135,9 +135,27 @@ describe('Home page', function() {
         cy.get('[data-test=manage-tracklist]').click()
         cy.url().should('match', /shows\/[0-9]+\/tracks\/create/)
 
-        const firstTrack = {artist: 'DJ Great Software', title: 'BDD or go home!', url: 'https://www.example.com'}
-        const secondTrack = {artist: 'DJ Second', title: 'Nature!', url: 'https://omtheorem.no'}
-        const thirdTrack = {artist: 'DJ Three', title: 'Nuts!', url: 'https://askepott.no'}
+        const firstTrack = {
+          artist: 'DJ Great Software',
+          title: 'BDD or go home!',
+          remix: '',
+          label: 'Great Records',
+          url: 'https://www.example.com'
+        }
+        const secondTrack = {
+          artist: 'DJ Second',
+          title: 'Nature!',
+          remix: 'DJ Badboy RmX',
+          label: '',
+          url: 'https://omtheorem.no'
+        }
+        const thirdTrack = {
+          artist: 'DJ Three',
+          title: 'Nuts!',
+          remix: '',
+          label: '',
+          url: 'https://askepott.no'
+        }
 
         addToTracklist(firstTrack)
         addToTracklist(thirdTrack)
@@ -154,14 +172,24 @@ describe('Home page', function() {
         cy.get('[data-test=tracks]').last().find('[data-test=move-down]').click()
 
         cy.get('[data-test=artist]').then(artists => {
-            expect(artists[0]).to.have.value(firstTrack.artist)
-            expect(artists[1]).to.have.value(secondTrack.artist)
-            expect(artists[2]).to.have.value(thirdTrack.artist)
+          expect(artists[0]).to.have.value(firstTrack.artist)
+          expect(artists[1]).to.have.value(secondTrack.artist)
+          expect(artists[2]).to.have.value(thirdTrack.artist)
         })
         cy.get('[data-test=title]').then(titles => {
-            expect(titles[0]).to.have.value(firstTrack.title)
-            expect(titles[1]).to.have.value(secondTrack.title)
-            expect(titles[2]).to.have.value(thirdTrack.title)
+          expect(titles[0]).to.have.value(firstTrack.title)
+          expect(titles[1]).to.have.value(secondTrack.title)
+          expect(titles[2]).to.have.value(thirdTrack.title)
+        })
+        cy.get('[data-test=remix]').then(remixes => {
+          expect(remixes[0]).to.have.value(firstTrack.remix)
+          expect(remixes[1]).to.have.value(secondTrack.remix)
+          expect(remixes[2]).to.have.value(thirdTrack.remix)
+        })
+        cy.get('[data-test=label]').then(labels => {
+          expect(labels[0]).to.have.value(firstTrack.label)
+          expect(labels[1]).to.have.value(secondTrack.label)
+          expect(labels[2]).to.have.value(thirdTrack.label)
         })
         cy.get('[data-test=url]').then(urls => {
           expect(urls[0]).to.have.value(firstTrack.url)
@@ -189,17 +217,34 @@ describe('Home page', function() {
       })
 
       it('Lets users edit a tracklist', function() {
-        cy.add_show({name: 'Show with a edited track list', date: '2020-05-19'})
+        cy.add_show({name: 'Show with an edited track list', date: '2020-05-19'})
         cy.get('[data-test=show-details]').first().click()
         cy.get('[data-test=manage-tracklist]').click()
 
-        const trackToBeDeleted = {artist: 'DJ Great Software', title: 'BDD or go home!', url: 'https://www.example.com'}
-        const trackToBeEdited = {artist: 'DJ One', title: 'Bass Music!', url: 'https://www.example.com'}
+        const trackToBeDeleted = {
+          artist: 'DJ Great Software',
+          title: 'BDD or go home!',
+          remix: 'The remix!',
+          label: 'super great records',
+          url: 'https://www.example.com'
+        }
+        const trackToBeEdited = {
+          artist: 'DJ One',
+          title: 'Bass Music!',
+          remix: 'The remix!',
+          label: 'super great records',
+          url: 'https://www.example.com'
+        }
         addToTracklist(trackToBeDeleted)
         addToTracklist(trackToBeEdited)
         cy.get('[data-test=submit]').click()
 
-        const editedTrack = {artist: 'DJ Edited', title: 'Name!', url: 'https://omtheorem.no'}
+        const editedTrack = {
+          artist: 'DJ Edited',
+          title: 'Name!',
+          remix: 'The edited remix!',
+          label: 'super great edited records',
+          url: 'https://omtheorem.no'}
         cy.get('[data-test=manage-tracklist]').click()
 
         cy.get('[data-test=artist]')
@@ -212,15 +257,37 @@ describe('Home page', function() {
           .should('have.value', trackToBeEdited.title)
           .clear()
           .type(editedTrack.title)
+        cy.get('[data-test=remix]')
+          .last()
+          .should('have.value', trackToBeEdited.remix)
+          .clear()
+          .type(editedTrack.remix)
+        cy.get('[data-test=label]')
+          .last()
+          .should('have.value', trackToBeEdited.label)
+          .clear()
+          .type(editedTrack.label)
         cy.get('[data-test=url]')
           .last()
           .should('have.value', trackToBeEdited.url)
           .clear()
           .type(editedTrack.url)
 
-        const newlyAddedTrack = {artist: 'DJ Added', title: 'Title!', url: 'https://omtheorem.no'}
+        const newlyAddedTrack = {
+          artist: 'DJ Added',
+          title: 'Title!',
+          remix: '',
+          label: '',
+          url: 'https://omtheorem.no'
+        }
         addToTracklist(newlyAddedTrack)
-        const trackAddedAndDeleted = {artist: 'DJ Added 2', title: 'Title 2!', url: 'https://omtheorem.no/track4'}
+        const trackAddedAndDeleted = {
+          artist: 'DJ Added 2',
+          title: 'Title 2!',
+          remix: '',
+          label: '',
+          url: 'https://omtheorem.no/track4'
+        }
         addToTracklist(trackAddedAndDeleted)
         cy.get('[data-test=tracks]').first().within(($track) => {
             cy.get('[data-test=delete-track]').click()
@@ -244,13 +311,21 @@ describe('Home page', function() {
 function assertRowContainsTrack(row, track) {
   expect(row).to.contain(track.artist)
   expect(row).to.contain(track.title)
+  expect(row).to.contain(track.remix)
+  expect(row).to.contain(track.label)
   expect(row).to.have.attr('href', track.url)
 }
 
 function addToTracklist(track) {
   cy.get('[data-test=add-track]').click()
   cy.get('[data-test=artist]').last().type(track.artist)
-  cy.get('[data-test=title').last().type(track.title)
+  cy.get('[data-test=title]').last().type(track.title)
+  if (track.remix) {
+    cy.get('[data-test=remix]').last().type(track.remix)
+  }
+  if (track.label) {
+    cy.get('[data-test=label]').last().type(track.label)
+  }
   cy.get('[data-test=url]').last().type(track.url)
 }
 

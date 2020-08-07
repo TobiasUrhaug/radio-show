@@ -17,6 +17,8 @@
             <thead class="thead-dark">
                 <th>Artist</th>
                 <th>Title</th>
+                <th>Remix</th>
+                <th>Label</th>
                 <th>URL</th>
                 <th></th>
                 <th></th>
@@ -26,6 +28,8 @@
                 <tr th:each="track, lineStat: *{tracks}" data-test="tracks">
                     <td><input type="text" th:field="*{tracks[__${lineStat.index}__].artist}" class="artist" data-test="artist"/></td>
                     <td><input type="text" th:field="*{tracks[__${lineStat.index}__].title}" class="title" data-test="title"/></td>
+                    <td><input type="text" th:field="*{tracks[__${lineStat.index}__].remix}" class="remix" data-test="remix"/></td>
+                    <td><input type="text" th:field="*{tracks[__${lineStat.index}__].label}" class="label" data-test="label"/></td>
                     <td><input type="text" th:field="*{tracks[__${lineStat.index}__].url}" class="url" data-test="url"/></td>
                     <td><button type="button" data-test="move-up" class="move-up btn btn-outline-secondary">Move Up</button></td>
                     <td><button type="button" data-test="move-down" class="move-down btn btn-outline-secondary">Move Down</button></td>

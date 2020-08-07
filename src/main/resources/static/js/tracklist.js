@@ -2,6 +2,8 @@ function addTrack() {
   let rowNumber = $('#tracklist tr').length;
   let artistCell = '<td><input name="tracks[' + rowNumber + '].artist" class="artist" type="text" value="" data-test="artist"/></td>'
   let titleCell = '<td><input name="tracks[' + rowNumber + '].title" class="title" type="text" value="" data-test="title"/></td>'
+  let remixCell = '<td><input name="tracks[' + rowNumber + '].remix" class="remix" type="text" value="" data-test="remix"/></td>'
+  let labelCell = '<td><input name="tracks[' + rowNumber + '].label" class="label" type="text" value="" data-test="label"/></td>'
   let urlCell = '<td><input name="tracks[' + rowNumber + '].url" class="url" type="text" value="" data-test="url" /></td>'
   let moveUpBtn = '<td><button type="button" data-test="move-up" class="move-up btn btn-outline-secondary">Move Up</button></td>'
   let moveDownBtn = '<td><button type="button" data-test="move-down" class="move-down btn btn-outline-secondary">Move Down</button></td>'
@@ -11,6 +13,8 @@ function addTrack() {
     '<tr id="tracks" data-test="tracks">'
     + artistCell
     + titleCell
+    + remixCell
+    + labelCell
     + urlCell
     + moveUpBtn
     + moveDownBtn
@@ -46,6 +50,8 @@ $(function(){
 function swapRows(row1, row2) {
   swapValues(row1, row2, '.artist');
   swapValues(row1, row2, '.title');
+  swapValues(row1, row2, '.remix');
+  swapValues(row1, row2, '.label');
   swapValues(row1, row2, '.url');
 }
 

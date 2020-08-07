@@ -10,5 +10,7 @@ data class TrackEntity(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long = -1,
-        val url: String = ""
+        val url: String = "",
+        val remix: String = "",
+        val label: String = ""
 )

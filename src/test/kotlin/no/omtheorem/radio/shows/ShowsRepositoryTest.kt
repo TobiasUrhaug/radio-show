@@ -21,8 +21,8 @@ internal class ShowsRepositoryTest {
         val initialShowWithoutTracks = ShowEntity()
 
         val showWithTracks = showRepository.save(initialShowWithoutTracks)
-        val trackA = TrackEntity("Artist A", "Track A", 1)
-        val trackB = TrackEntity("Artist B", "Track B", 2)
+        val trackA = TrackEntity("Artist A", "Track A",1, "URL A","Remix A", "Label A")
+        val trackB = TrackEntity("Artist B", "Track B", 2, "URL B","Remix B", "Label B")
         val tracks = showWithTracks.tracks.toMutableList()
         tracks.addAll(listOf(trackA, trackB))
         showWithTracks.tracks = tracks
