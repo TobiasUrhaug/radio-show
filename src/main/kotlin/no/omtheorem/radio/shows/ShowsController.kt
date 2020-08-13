@@ -65,8 +65,11 @@ class ShowsController (){
 
     @GetMapping("/shows/{showId}")
     fun getDetails(@PathVariable showId: Long, model: Model): String {
-        val showEntity = showRepository.findById(showId).get()
-        model.addAttribute("show", ShowForm(showEntity))
+        val showEntity = showRepository.findById(showId)
+        if (!showEntity.isPresent) {
+            throw ShowNotFoundException("Show with id $showId was not found");
+        }
+        model.addAttribute("show", ShowForm(showEntity.get()))
         model.addAttribute("showId", showId)
         return "shows/show"
     }

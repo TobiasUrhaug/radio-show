@@ -172,6 +172,14 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
+    fun `getDetails returns 404 when show is not found`() {
+        every { showRepository.findById(1) } returns Optional.empty()
+
+        this.mvc.perform(get("/shows/1"))
+                .andExpect(status().isNotFound)
+    }
+
+    @Test
     fun `showManageTracklistForm renders form with already existing tracks`() {
         val show = ShowEntity(id = 1, tracks = emptyList())
         every { showRepository.findById(1) } returns Optional.of(show)
