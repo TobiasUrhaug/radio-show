@@ -56,13 +56,13 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
     @Test
     fun `createShow redirects to root`() {
-        val show = ShowEntity("Show Name", LocalDate.of(2020, 4, 12))
+        val show = ShowForm("Show Name", "2020-04-17")
 
-        every { showRepository.save(show) } returns show
+        every { showService.createShow(show) } just runs
 
         this.mvc.perform(post("/shows/create")
                 .param("name", show.name)
-                .param("date", show.date.toString())
+                .param("date", show.date)
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(redirectedUrl("/"))
