@@ -120,9 +120,9 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
     @Test
     fun `showUpdateShowForm renders form with correct values`() {
-        val show = ShowEntity("Edit me!", LocalDate.of(2020, 4, 19), 1)
+        val show = ShowForm("Edit me!", "2020-04-19", id = 1)
 
-        every { showRepository.findById(1) } returns Optional.of(show)
+        every { showService.findById(1) } returns show
 
         this.mvc.perform(get("/shows/1/update"))
                 .andExpect(status().isOk)

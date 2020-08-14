@@ -20,4 +20,8 @@ class ShowService(val showRepository: ShowRepository) {
         return showRepository.deleteById(id)
     }
 
+    fun findById(id: Long): ShowForm {
+        return ShowForm(showRepository.findById(id).get())
+    }
+
 }

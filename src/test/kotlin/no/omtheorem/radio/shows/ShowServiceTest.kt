@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
+import java.util.*
 
 internal class ShowServiceTest {
 
@@ -58,6 +59,14 @@ internal class ShowServiceTest {
         every { showRepository.deleteById(showEntity.id) } just runs
         showService.deleteShow(showEntity.id);
         verify (exactly = 1) { showRepository.deleteById(showEntity.id) }
+    }
+
+    @Test
+    fun `findById finds a show by its id`() {
+        val showEntity = ShowEntity("name", LocalDate.of(2020, 4,15), id = 2L)
+        every { showRepository.findById(showEntity.id) } returns Optional.of(showEntity)
+        val returnedShow = showService.findById(showEntity.id)
+        assertEquals(ShowForm(showEntity), returnedShow)
     }
 
 }

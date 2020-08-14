@@ -50,8 +50,8 @@ class ShowsController (){
 
     @GetMapping("/shows/{showId}/update")
     fun showUpdateShowForm(@PathVariable showId: Long, model: Model): String {
-        val showEntity = showRepository.findById(showId).get()
-        model.addAttribute("show", ShowForm(showEntity))
+        val showForm = showService.findById(showId)
+        model.addAttribute("show",showForm)
         model.addAttribute("showId", showId)
         return "shows/update"
     }
