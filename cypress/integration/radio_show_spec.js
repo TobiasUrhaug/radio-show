@@ -18,8 +18,8 @@ describe('Home page', function() {
     })
 
     it('Has home element navigating to root', function() {
-      cy.get('[data-test=create-show').click()
-      cy.get('[data-test=navbar-home').click()
+      cy.get('[data-test=create-show]').click()
+      cy.get('[data-test=navbar-home]').click()
       cy.url()
         .should('eq', 'http://localhost:8080/')
     })
@@ -35,9 +35,9 @@ describe('Home page', function() {
       cy.add_show(firstShow)
 
       cy.get('[data-test=create-show]').click()
-      cy.get('[data-test=name-input').type(secondShow.name)
-      cy.get('[data-test=date-input').type(secondShow.date)
-      cy.get('[data-test=submit').click()
+      cy.get('[data-test=name-input]').type(secondShow.name)
+      cy.get('[data-test=date-input]').type(secondShow.date)
+      cy.get('[data-test=submit]').click()
 
       cy.get('[data-test=show]')
         .first()
@@ -50,12 +50,12 @@ describe('Home page', function() {
 
       // Submitting an empty form should display error messages
       cy.get('[data-test=create-show]').click()
-      cy.get('[data-test=submit').click()
+      cy.get('[data-test=submit]').click()
       cy.url().should('eq', 'http://localhost:8080/shows/create')
       cy.get('[data-test=name-error]')
         .first()
         .should('not.be.empty')
-      cy.get('[data-test=date-error')
+      cy.get('[data-test=date-error]')
         .first()
         .should('not.be.empty')
       cy.get('[data-test=cancel]').click()
@@ -68,7 +68,7 @@ describe('Home page', function() {
       it('Lets users see the details of a show', function() {
         const show = {name: 'Show me your details', date: '2020-05-17'}
         cy.add_show(show)
-        cy.get('[data-test=show-details').first().click()
+        cy.get('[data-test=show-details]').first().click()
 
         cy.get('h1').should('contain.text', show.date).and('contain.text', show.name)
       })
@@ -79,7 +79,7 @@ describe('Home page', function() {
         cy.get('[data-test=show-details]').first().click()
         cy.get('[data-test=delete]').first().click()
         cy.url().should('eq', 'http://localhost:8080/')
-        cy.get('[data-test=shows')
+        cy.get('[data-test=shows]')
           .should('not.contain', showToBeDeleted.name)
       })
 
@@ -91,21 +91,21 @@ describe('Home page', function() {
         cy.get('[data-test=show-details]').first().click()
         cy.get('[data-test=edit]').first().click()
         cy.url().should('match', /shows\/[0-9]+\/update/)
-        cy.get('[data-test=name-input')
+        cy.get('[data-test=name-input]')
           .should('have.value', originalShow.name)
           .clear()
           .type(editedShow.name)
-        cy.get('[data-test=date-input')
+        cy.get('[data-test=date-input]')
           .should('have.value', originalShow.date)
           .clear()
           .type(editedShow.date)
-        cy.get('[data-test=submit').click()
+        cy.get('[data-test=submit]').click()
 
         cy.url().should('match', /shows\/[0-9]+/)
         cy.get('h1').should('contain.text', editedShow.date).and('contain.text', editedShow.name)
 
         cy.visit('/')
-        cy.get('[data-test=shows')
+        cy.get('[data-test=shows]')
           .should('not.contain', originalShow.name)
           .and('not.contain', originalShow.dDate)
         cy.get('[data-test=show]')
