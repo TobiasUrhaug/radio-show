@@ -38,7 +38,7 @@ class ShowsController (){
 
     @GetMapping("/")
     fun listShows(model: Model): String {
-        model.addAttribute("shows", showRepository.findAll().sortedByDescending { it.id })
+        model.addAttribute("shows", showService.listShows())
         return "index"
     }
 

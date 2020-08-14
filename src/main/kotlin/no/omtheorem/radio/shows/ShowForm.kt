@@ -10,15 +10,16 @@ class ShowForm(
         val name: String = "",
         @get:NotEmpty(message = "Please select a date")
         val date: String = "",
-        val tracks: List<TrackForm> = ArrayList()
+        val tracks: List<TrackForm> = ArrayList(),
+        val id: Long = -1
 ) {
 
     constructor(showEntity: ShowEntity) : this(
             name = showEntity.name,
             date = showEntity.date.toString(),
-            tracks = showEntity.tracks.map { it -> TrackForm(it.artist, it.name, it.url, it.remix, it.label) }
-    ) {
-    }
+            tracks = showEntity.tracks.map { it -> TrackForm(it.artist, it.name, it.url, it.remix, it.label) },
+            id = showEntity.id
+    )
 
     fun localDate(): LocalDate {
         return LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
@@ -44,5 +45,8 @@ class ShowForm(
         return result
     }
 
+    override fun toString(): String {
+        return "Name: $name, Date: $date, Tracks: $tracks, Id: $id"
+    }
 
 }

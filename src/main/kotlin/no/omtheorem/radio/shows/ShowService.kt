@@ -9,4 +9,11 @@ class ShowService(val showRepository: ShowRepository) {
         showRepository.save(ShowEntity(show.name, show.localDate()))
     }
 
+    fun listShows(): List<ShowForm> {
+        return showRepository
+                .findAll()
+                .sortedByDescending { it.id }
+                .map { ShowForm(it) }
+    }
+
 }
