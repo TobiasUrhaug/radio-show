@@ -1,9 +1,7 @@
 package no.omtheorem.radio.shows
 
-import io.mockk.MockKAnnotations
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -52,6 +50,14 @@ internal class ShowServiceTest {
         )
 
         assertEquals(expectedShows, showService.listShows())
+    }
+
+    @Test
+    fun `deleteShow deletes a show by id`() {
+        val showEntity = ShowEntity("name", LocalDate.of(2020, 4,15), id = 2L)
+        every { showRepository.deleteById(showEntity.id) } just runs
+        showService.deleteShow(showEntity.id);
+        verify (exactly = 1) { showRepository.deleteById(showEntity.id) }
     }
 
 }

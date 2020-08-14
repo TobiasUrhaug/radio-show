@@ -16,4 +16,8 @@ class ShowService(val showRepository: ShowRepository) {
                 .map { ShowForm(it) }
     }
 
+    fun deleteShow(id: Long) {
+        return showRepository.deleteById(id)
+    }
+
 }

@@ -115,7 +115,7 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
         this.mvc.perform(get("/shows/delete/2"))
                 .andExpect(status().is3xxRedirection)
 
-        verify { showRepository.deleteById(2) }
+        verify { showService.deleteShow(2L) }
     }
 
     @Test

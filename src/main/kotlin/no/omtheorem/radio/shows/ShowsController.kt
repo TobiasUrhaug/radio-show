@@ -44,7 +44,7 @@ class ShowsController (){
 
     @GetMapping("/shows/delete/{id}")
     fun deleteById(@PathVariable id: Long, model: Model): String {
-        showRepository.deleteById(id)
+        showService.deleteShow(id)
         return "redirect:/"
     }
 
