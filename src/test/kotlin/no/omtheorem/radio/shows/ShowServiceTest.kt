@@ -2,6 +2,7 @@ package no.omtheorem.radio.shows
 
 import io.mockk.*
 import io.mockk.impl.annotations.RelaxedMockK
+import no.omtheorem.radio.tracks.TrackEntity
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -74,6 +75,38 @@ internal class ShowServiceTest {
     fun `findById throws ShowNotFoundException when show id is not found`() {
         every { showRepository.findById(123) } returns Optional.empty()
         assertThrows<ShowNotFoundException> { showService.findById(123)  }
+    }
+
+    @Test
+    fun `updateShowDetails updates details on a show`() {
+        val existingShowEntity = ShowEntity("Name", LocalDate.of(2020, 3, 29),1)
+        val updatedShowEntity = ShowEntity("updated", LocalDate.of(2020, 4, 18),1)
+        val updatedShow = ShowForm(updatedShowEntity)
+
+        every { showRepository.findById(1) } returns Optional.of(existingShowEntity)
+        every { showRepository.save(updatedShowEntity) } returns updatedShowEntity
+
+        showService.updateShowDetails(updatedShow)
+
+        verify { showRepository.save(updatedShowEntity) }
+    }
+
+
+    @Test
+    fun `updateShowDetails preserves the exising shows tracks`() {
+        val track = TrackEntity("artist", "title")
+        val existingShowEntity =
+                ShowEntity("Name", LocalDate.of(2020, 3, 29),1, listOf(track))
+        val updatedShowEntity =
+                ShowEntity("updated", LocalDate.of(2020, 4, 18),1, listOf(track))
+        val updatedShow = ShowForm(updatedShowEntity)
+
+        every { showRepository.findById(1) } returns Optional.of(existingShowEntity)
+        every { showRepository.save(updatedShowEntity) } returns updatedShowEntity
+
+        showService.updateShowDetails(updatedShow)
+
+        verify { showRepository.save(updatedShowEntity) }
     }
 
 }

@@ -26,4 +26,12 @@ class ShowService(val showRepository: ShowRepository) {
         return ShowForm(showEntity.get())
     }
 
+    fun updateShowDetails(show: ShowForm): ShowForm {
+        val existingEntity = showRepository.findById(show.id)
+        if (!existingEntity.isPresent) { throw ShowNotFoundException("Show with id $show.id was not found") }
+        val updatedEntity: ShowEntity = existingEntity.get().copy()
+        updatedEntity.name = show.name
+        updatedEntity.date = show.localDate()
+        return ShowForm(showRepository.save(updatedEntity))
+    }
 }

@@ -132,35 +132,21 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     }
 
     @Test
-    fun `updateShow updates the show and redirects to the shows details page`() {
-        val trackA = TrackEntity("artist A", "track A")
+    fun `updateShowDetails updates the show and redirects to the shows details page`() {
+        val existingShow = ShowForm("name", "2020-04-22", emptyList(), 1)
+        every { showService.findById(1) } returns existingShow
 
-        val showEntity = ShowEntity(
-                "New name",
-                LocalDate.of(2020, 4, 22),
-                1,
-                listOf(trackA)
-        )
-
-        every { showRepository.findById(1) } returns Optional.of(showEntity)
-
-        val updatedShow = ShowEntity(
-                "new Name",
-                LocalDate.of(2020, 4, 24),
-                showEntity.id,
-                showEntity.tracks
-        )
-
-        every { showRepository.save(updatedShow) } returns updatedShow
+        val updatedShow = ShowForm("updated name", "2020-04-24", emptyList(), existingShow.id)
+        every { showService.updateShowDetails(updatedShow) } returns updatedShow
 
         this.mvc.perform(post("/shows/1/update")
                 .param("name", updatedShow.name)
-                .param("date", updatedShow.date.toString())
+                .param("date", updatedShow.date)
         )
                 .andExpect(status().is3xxRedirection)
                 .andExpect(redirectedUrl("/shows/1"))
 
-        verify { showRepository.save(updatedShow) }
+        verify { showService.updateShowDetails(updatedShow) }
     }
 
     @Test
