@@ -2,6 +2,8 @@ package no.omtheorem.radio.shows
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import io.mockk.just
+import io.mockk.runs
 import io.mockk.verify
 import no.omtheorem.radio.tracks.TrackEntity
 import no.omtheorem.radio.tracks.TrackForm
@@ -26,6 +28,9 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
     private lateinit var showRepository: ShowRepository
 
     @MockkBean(relaxUnitFun = true)
+    private lateinit var showService: ShowService
+
+    @MockkBean(relaxUnitFun = true)
     private lateinit var trackRepository: TrackRepository
 
     @Test
@@ -37,16 +42,16 @@ internal class ShowsControllerTest(@Autowired var mvc:MockMvc) {
 
     @Test
     fun `createShow saves the show to the repository`() {
-        val show = ShowEntity("Show Name", LocalDate.of(2020, 4, 12))
+        val show = ShowForm("Show Name", "2020-04-13")
 
-        every { showRepository.save(show) } returns show
+        every { showService.createShow(show) } just runs
 
         this.mvc.perform(post("/shows/create")
                 .param("name", show.name)
-                .param("date", show.date.toString())
+                .param("date", show.date)
         )
 
-        verify (exactly = 1) { showRepository.save(show) }
+        verify (exactly = 1) { showService.createShow(show) }
     }
 
     @Test

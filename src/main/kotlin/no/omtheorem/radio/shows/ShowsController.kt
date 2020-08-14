@@ -17,6 +17,8 @@ class ShowsController (){
     @Autowired
     private lateinit var showRepository: ShowRepository
     @Autowired
+    private lateinit var showService: ShowService
+    @Autowired
     private lateinit var trackRepository: TrackRepository
 
     @GetMapping("/shows/create")
@@ -30,7 +32,7 @@ class ShowsController (){
         if (bindingResult.hasErrors()) {
             return "shows/create-show"
         }
-        showRepository.save(ShowEntity(showForm.name, showForm.localDate()))
+        showService.createShow(showForm)
         return "redirect:/"
     }
 
