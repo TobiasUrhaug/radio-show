@@ -21,7 +21,9 @@ class ShowService(val showRepository: ShowRepository) {
     }
 
     fun findById(id: Long): ShowForm {
-        return ShowForm(showRepository.findById(id).get())
+        val showEntity = showRepository.findById(id)
+        if (!showEntity.isPresent) { throw ShowNotFoundException("Show with id $id was not found") }
+        return ShowForm(showEntity.get())
     }
 
 }

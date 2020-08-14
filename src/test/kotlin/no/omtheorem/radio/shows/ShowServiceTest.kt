@@ -5,6 +5,7 @@ import io.mockk.impl.annotations.RelaxedMockK
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 import java.util.*
 
@@ -67,6 +68,12 @@ internal class ShowServiceTest {
         every { showRepository.findById(showEntity.id) } returns Optional.of(showEntity)
         val returnedShow = showService.findById(showEntity.id)
         assertEquals(ShowForm(showEntity), returnedShow)
+    }
+
+    @Test
+    fun `findById throws ShowNotFoundException when show id is not found`() {
+        every { showRepository.findById(123) } returns Optional.empty()
+        assertThrows<ShowNotFoundException> { showService.findById(123)  }
     }
 
 }
